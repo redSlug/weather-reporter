@@ -1,0 +1,12 @@
+certifi==2018.1.18
+chardet==3.0.4
+darksky==0.3
+darkskylib==0.3.91
+future==0.16.0
+idna==2.6
+mapq==0.3
+numpy==1.14.2
+Pillow==5.1.0
+requests==2.18.4
+simplejson==3.13.2
+urllib3==1.22
