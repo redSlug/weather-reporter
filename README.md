@@ -15,10 +15,10 @@
 ```
 
 ## BOM
-- Raspberry Pi and power supply
+- Raspberry Pi or Pi Zero with [Hammer Header Male Connector](https://www.adafruit.com/product/3662?gclid=CjwKCAjw_47YBRBxEiwAYuKdw5l9LOCGMq1DYlVqqCFQ7JWwCHZdirC31xi53t6ke8LuWUJVX_u75RoCaIEQAvD_BwE), and power supply
 - [MPC1073](http://www.electrodragon.com/product/rgb-matrix-panel-drive-board-raspberry-pi/) and CR1220 battery
-- SD card, and card reader / writer
-- 32x16 LED matrix with ribbon and 5 Volt 2 Amp power supply
+- 8GB+ SD card, and card reader / writer
+- [32x16 LED matrix](https://www.adafruit.com/product/420) with ribbon and 5 Volt 2 Amp power supply
 
 ## Thank You
 - [Henner Zeller](https://github.com/hzeller/rpi-rgb-led-matrix) for sharing your sample code
