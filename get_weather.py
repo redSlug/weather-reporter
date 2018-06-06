@@ -40,10 +40,10 @@ def replace_banner(currently_icon, summary):
     banner.paste(enhanced_summary, (0, 4))
     banner.paste(current_img, (enhanced_summary.width, 0))
 
-    colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple']
-    for i, color in enumerate(colors):
-        stripe = Image.new('RGB', (enhanced_summary.width, 1), color)
-        banner.paste(stripe, (0, i if i < 3 else i + 10))
+    #colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple']
+    #for i, color in enumerate(colors):
+    #    stripe = Image.new('RGB', (enhanced_summary.width, 1), color)
+    #    banner.paste(stripe, (0, i if i < 3 else i + 10))
 
     banner.save('images/weather.ppm')
 
@@ -56,8 +56,8 @@ def get_weather():
     summary = location.hourly.summary
     low = int(location.daily.data[0].apparentTemperatureLow)
     high = int(location.daily.data[0].apparentTemperatureHigh)
-    chance_rain = location.currently.precipProbability * 100
-    summary = '{low}-{high}F {humid}% humid {uv}uv {rain}% chance rain. '.format(low=low, high=high, uv=uv, humid=humidity, rain=chance_rain) + summary
+    chance_rain = int(location.currently.precipProbability * 100)
+    summary ='{low}-{high}F humid:{humid}% uv:{uv} rain:{rain}% '.format(low=low, high=high, uv=uv, humid=humidity, rain=chance_rain) + summary
     return dict(currently_icon=currently_icon, summary=summary)
 
 
