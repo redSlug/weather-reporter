@@ -21,6 +21,7 @@ weather_files = dict(
 
 
 def replace_banner(currently_icon, summary):
+    summary += get_calendar_data()
     font_size_in_points = 9
     font = ImageFont.truetype('fonts/led.ttf', font_size_in_points)
     font_size = font.getsize(summary)
@@ -48,6 +49,18 @@ def replace_banner(currently_icon, summary):
     banner.save('images/weather.ppm')
 
 
+def get_calendar_data():
+    try:
+        with open('calendar_data') as f:
+                l = f.readline()
+                if len(l) > 120:
+                    l = l[:120]
+                return l.rstrip()
+    except:
+        print('unable to get calendar data')
+        return ''
+
+
 def get_weather():
     location = forecast(API_KEY, LAT, LONG)
     currently_icon = location.currently.icon.replace('-', '_')
@@ -58,7 +71,6 @@ def get_weather():
     high = int(location.daily.data[0].apparentTemperatureHigh)
     chance_rain = int(location.currently.precipProbability * 100)
     summary ='{low}-{high}F humid:{humid}% uv:{uv} rain:{rain}% '.format(low=low, high=high, uv=uv, humid=humidity, rain=chance_rain) + summary
-    summary += " Hey everyone this is a test~~~~"
     return dict(currently_icon=currently_icon, summary=summary)
 
 
