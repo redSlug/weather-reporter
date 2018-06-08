@@ -58,6 +58,7 @@ def get_weather():
     high = int(location.daily.data[0].apparentTemperatureHigh)
     chance_rain = int(location.currently.precipProbability * 100)
     summary ='{low}-{high}F humid:{humid}% uv:{uv} rain:{rain}% '.format(low=low, high=high, uv=uv, humid=humidity, rain=chance_rain) + summary
+    summary += " Hey everyone this is a test~~~~"
     return dict(currently_icon=currently_icon, summary=summary)
 
 
