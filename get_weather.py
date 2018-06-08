@@ -21,6 +21,7 @@ weather_files = dict(
 
 
 def replace_banner(currently_icon, summary):
+    summary += get_calendar_data()
     font_size_in_points = 9
     font = ImageFont.truetype('fonts/led.ttf', font_size_in_points)
     font_size = font.getsize(summary)
@@ -46,6 +47,18 @@ def replace_banner(currently_icon, summary):
         banner.paste(stripe, (0, i if i < 3 else i + 10))
 
     banner.save('images/weather.ppm')
+
+
+def get_calendar_data():
+    try:
+        with open('calendar_data') as f:
+                l = f.readline()
+                if len(l) > 120:
+                    l = l[:120]
+                return l.rstrip()
+    except:
+        print('unable to get calendar data')
+        return ''
 
 
 def get_weather():
