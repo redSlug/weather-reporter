@@ -1,8 +1,10 @@
-from subprocess import Popen, PIPE
 import re
 import datetime
 import sys
 import requests
+
+SUMMARY_LIMIT = 25
+CALENDAR_DATA_LIMIT = 120
 
 def getEventsInFuture(calendar_token):
     calendarURL = 'https://www.recurse.com/calendar/events.ics?token=' + calendar_token
@@ -31,14 +33,29 @@ def getEventsInFuture(calendar_token):
 
     titles.sort(key=lambda x:x[1])
     titles = [(summary.rstrip(),time) for summary,time in titles]
-    eventDictionary = {}
+    event_dictionary = {}
     for summary, date in titles:
-        if summary not in eventDictionary:
-            eventDictionary[summary] = date
-    
-    return eventDictionary
+        if len(summary) > SUMMARY_LIMIT:
+            summary_words = summary.split()
+            short_summary = ''
+            for word in summary_words:
+                if len(short_summary + word) + 4 > SUMMARY_LIMIT:
+                    break
+                short_summary += ' ' + word
+            summary = short_summary + '...'
 
+        if summary not in event_dictionary:
+            event_dictionary[summary] = date
 
+    event_data = ' Upcoming: '
+    for (title, date) in event_dictionary.items():
+        if len(title + date) > CALENDAR_DATA_LIMIT:
+            print('title too long:', title)
+            continue
+        event_data += '{title} {date}, '.format(title=title, date=date)
+    event_data = event_data[:-2]
+    with open('calendar_data', 'w') as f:
+        f.write(event_data)
 
 if __name__ == "__main__":
     print(getEventsInFuture(sys.argv[1]))
