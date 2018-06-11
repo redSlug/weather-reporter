@@ -46,16 +46,20 @@ def getEventsInFuture(calendar_token):
 
         if summary not in event_dictionary:
             event_dictionary[summary] = date
-
-    event_data = ' Upcoming: '
+            
+    event_data = ' '
     for (title, date) in event_dictionary.items():
         if len(title + date) > CALENDAR_DATA_LIMIT:
-            print('title too long:', title)
             continue
+
         event_data += '{title} {date}, '.format(title=title, date=date)
     event_data = event_data[:-2]
+
+    if len(event_dictionary):
+        event_data = ' Upcoming: ' + event_data
+    
     with open('calendar_data', 'w') as f:
         f.write(event_data)
 
 if __name__ == "__main__":
-    print(getEventsInFuture(sys.argv[1]))
+    getEventsInFuture(sys.argv[1])

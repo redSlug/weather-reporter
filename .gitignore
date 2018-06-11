@@ -6,3 +6,5 @@ trash
 venv
 .DS_Store
 images/weather.ppm
+calendar_data
+images/enh.ppm
