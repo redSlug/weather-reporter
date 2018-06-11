@@ -20,8 +20,9 @@
 - 8GB+ SD card, and card reader / writer
 - [32x16 LED matrix](https://www.adafruit.com/product/420) with ribbon and 5 Volt 2 Amp power supply
 
-## SSH Passphrase
-- `hello`
+## Troubleshooting
+- SSH Passphrase is `hello`
+- `curl https://api.darksky.net/forecast/<API_KEY>/37.8267,-122.4233`
 
 ## Thank You
 - [Henner Zeller](https://github.com/hzeller/rpi-rgb-led-matrix) for sharing your sample code
