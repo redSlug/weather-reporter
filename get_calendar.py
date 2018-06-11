@@ -4,7 +4,8 @@ import datetime
 import sys
 import requests
 
-def getEventsInFuture(calendarURL):
+def getEventsInFuture(calendar_token):
+    calendarURL = 'https://www.recurse.com/calendar/events.ics?token=' + calendar_token
     result = requests.get(url=calendarURL)
     output = result.text
     titles = []
@@ -34,4 +35,10 @@ def getEventsInFuture(calendarURL):
     for summary, date in titles:
         if summary not in eventDictionary:
             eventDictionary[summary] = date
+    
     return eventDictionary
+
+
+
+if __name__ == "__main__":
+    print(getEventsInFuture(sys.argv[1]))
