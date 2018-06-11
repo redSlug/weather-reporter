@@ -2,6 +2,7 @@ import re
 import datetime
 import sys
 import requests
+import pytz
 
 SUMMARY_LIMIT = 25
 CALENDAR_DATA_LIMIT = 120
@@ -12,7 +13,7 @@ def getEventsInFuture(calendar_token):
     output = result.text
     titles = []
     output = output.split("\n")
-    now = datetime.datetime.now()
+    now = datetime.datetime.now(pytz.timezone('US/Eastern'))
     dateForEvent = None
     isActiveEvent = False
     for o in output:
@@ -27,6 +28,8 @@ def getEventsInFuture(calendar_token):
                 dateLine =  re.search('^DTSTART.*:(.*)', o)
                 dateLine = dateLine.group(1)[:-1]
                 cal_time = datetime.datetime.strptime(dateLine, "%Y%m%dT%H%M%S")
+                time_zone = pytz.timezone('US/Eastern')
+                cal_time = time_zone.localize(cal_time)
                 if now < cal_time < now + datetime.timedelta(hours=3):
                     isActiveEvent = True
                     dateForEvent = cal_time
