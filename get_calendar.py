@@ -19,7 +19,7 @@ def getEventsInFuture(calendar_token):
     for o in output:
         if (isActiveEvent) and (o.startswith("SUMMARY")) and (not "office hours" in o.lower()):
             o = o.replace("SUMMARY:","")
-            titles.append((o, dateForEvent.strftime('%H:%m')))
+            titles.append((o, dateForEvent.strftime('%H:%M')))
             isActiveEvent = False
 
         else:
