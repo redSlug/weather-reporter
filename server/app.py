@@ -3,9 +3,8 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.sql import func
-import datetime
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 
 
 app = Flask(__name__)
@@ -26,9 +25,16 @@ class Message(Base):
     created = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
 
 
-@app.route("/api/message", methods=["POST"])
+@app.route('/<string:page_name>/')
+def static_page(page_name):
+    return render_template('%s.html' % page_name)
+
+
+@app.route("/matrix/api/message", methods=["POST"])
 def create_message():
     data = request.get_json()
+    if 'message' not in data:
+        return jsonify({"error": "bad payload"}), 500
     message = data.get('message')
 
     msg = Message(message=message)
@@ -47,7 +53,8 @@ def create_message():
     finally:
         db_session.close()
 
-@app.route("/api/message", methods=["GET"])
+
+@app.route("/matrix/api/message", methods=["GET"])
 def get_messages():
     db_session = app.Session()
 

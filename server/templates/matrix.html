@@ -1,0 +1,63 @@
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+
+
+function postMessage() {
+
+    $.ajax({
+        url: '/matrix/api/message',
+        type: "POST",
+        data: '{"message":"yo yo yo!"}',
+        contentType: "application/json",
+        dataType:"text xml",
+        success: function(xml, textStatus, xhr) {
+        console.log(xhr.status);
+        },
+        complete: function(xhr, textStatus) {
+        alert(xhr.status);
+        console.log(xhr.status);
+        }
+    });
+
+ event.preventDefault();
+}
+
+
+</script>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+<link href="https://fonts.googleapis.com/css?family=Sunflower:300" rel="stylesheet">
+</head>
+<body>
+<div align="center" class="top">
+<img src ="rc_logo.png">
+<h1>RC Dynamic Display</h1>
+<h2>Make me say something<form>
+<input type="text"placeholder="Name (Optional!)" style="width:10%;">
+</input>
+<input type="text" style="width:50%;" placeholder="Message">
+</input>
+<input type="Button" value= "Say it" onclick="postMessage()">
+</input>
+</form>
+</h2>
+<img src ="images/display.jpg" style="width:100%;">
+</div>
+<div style="border-bottom:solid;">
+
+</div>
+
+<h2>What is it?</h2>
+The RC dynamic display is an LED dot matrix display which shows relevant information for those in the space, including:
+<ul>
+<li>Weather</li>
+<li>Upcoming Events</li>
+</ul>
+
+<h2>Feedback/Content</h2>
+You can give feedback on the project via this <a href="https://goo.gl/forms/qfSTRsV8FGikyNP32">Survey</a>.
+
+</body>
+</html>
