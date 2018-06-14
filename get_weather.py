@@ -1,6 +1,7 @@
 from darksky import forecast
 from sys import argv
 from PIL import Image, ImageFont, ImageDraw, ImageEnhance, ImageFilter
+import requests
 
 API_KEY = argv[1]
 LAT = argv[2]
@@ -22,6 +23,7 @@ weather_files = dict(
 
 def replace_banner(currently_icon, summary):
     summary += get_calendar_data()
+    summary = get_message_data()
     font_size_in_points = 9
     font = ImageFont.truetype('fonts/led.ttf', font_size_in_points)
     font_size = font.getsize(summary)
@@ -60,6 +62,13 @@ def get_calendar_data():
     except:
         print('unable to get calendar data')
         return ''
+
+def get_message_data():
+    messageURL = 'http://localhost:5000/matrix/api/message'
+    result = requests.get(url=messageURL)
+    return result.json().get('messages')[-1]['message']
+
+
 
 
 def get_weather():
