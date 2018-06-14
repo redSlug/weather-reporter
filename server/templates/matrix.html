@@ -32,7 +32,7 @@ function postMessage() {
 </head>
 <body>
 <div align="center" class="top">
-<img src ="rc_logo.png">
+<img src ="{{ url_for('static', filename='rc_logo.png') }}">
 <h1>RC Dynamic Display</h1>
 <h2>Make me say something<form>
 <input type="text"placeholder="Name (Optional!)" style="width:10%;">
@@ -43,7 +43,7 @@ function postMessage() {
 </input>
 </form>
 </h2>
-<img src ="images/display.jpg" style="width:100%;">
+<img src ="{{ url_for('static', filename='display.jpg') }}" style="width:100%;">
 </div>
 <div style="border-bottom:solid;">
 

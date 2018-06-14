@@ -47,7 +47,7 @@ def replace_banner(currently_icon, summary):
     #    banner.paste(stripe, (0, i if i < 3 else i + 10))
 
     banner.save('images/weather.ppm')
-    exportJpg('images/weather.ppm', 'images/display.jpg')
+    exportJpg('images/weather.ppm', 'server/static/display.jpg')
 
 
 def get_calendar_data():
