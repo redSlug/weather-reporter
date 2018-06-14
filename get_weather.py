@@ -23,7 +23,9 @@ weather_files = dict(
 
 def replace_banner(currently_icon, summary):
     summary += get_calendar_data()
-    summary = get_message_data()
+    msg = get_message_data()
+    if len(msg) < 30:
+        summary += msg
     font_size_in_points = 9
     font = ImageFont.truetype('fonts/led.ttf', font_size_in_points)
     font_size = font.getsize(summary)
