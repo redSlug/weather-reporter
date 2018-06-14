@@ -16,7 +16,7 @@ target_metadata = Base.metadata
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
-sqlalchemy_url = 'postgresql://usr:pass@localhost:5432/prod' #os.environ.get('SQLALCHEMY_URL')
+sqlalchemy_url = 'postgresql://user:pass@localhost:5432/prod' #os.environ.get('SQLALCHEMY_URL')
 config.set_main_option('sqlalchemy.url', sqlalchemy_url)
 
 # Interpret the config file for Python logging.
