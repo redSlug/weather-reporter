@@ -8,3 +8,5 @@ venv
 images/weather.ppm
 calendar_data
 images/enh.ppm
+*.pyc
+*__pycache__
