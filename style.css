@@ -1,0 +1,26 @@
+body{
+    font-family: 'Sunflower', sans-serif;
+    background-color:#cccccc;
+    color:#666666;
+}
+
+div.top
+{
+    width:100%;
+    background-color: #FFFFFF;
+    border-bottom: 5px solid;
+    margin-left:0px;
+    margin-right:0px;
+    padding-bottom:0px;
+}
+
+h1
+{
+    color : #000000;
+}
+
+h2{
+
+    color : #000000;
+}
+
