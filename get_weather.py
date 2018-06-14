@@ -47,6 +47,7 @@ def replace_banner(currently_icon, summary):
     #    banner.paste(stripe, (0, i if i < 3 else i + 10))
 
     banner.save('images/weather.ppm')
+    exportJpg('images/weather.ppm', 'images/display.jpg')
 
 
 def get_calendar_data():
@@ -72,6 +73,11 @@ def get_weather():
     chance_rain = int(location.currently.precipProbability * 100)
     summary ='{low}-{high}F humid:{humid}% uv:{uv} rain:{rain}% '.format(low=low, high=high, uv=uv, humid=humidity, rain=chance_rain) + summary
     return dict(currently_icon=currently_icon, summary=summary)
+
+
+def exportJpg(ppmFilePath,outputFilePath):
+    im = Image.open(ppmFilePath)
+    im.save(outputFilePath)
 
 
 if __name__ == '__main__':
