@@ -23,6 +23,7 @@
 ## Troubleshooting
 - SSH Passphrase is `hello`
 - `curl https://api.darksky.net/forecast/<API_KEY>/37.8267,-122.4233`
+- notice what happens on the grid when `sudo ping -f -s 30000 weatherpi.local`
 
 ## Thank You
 - [Henner Zeller](https://github.com/hzeller/rpi-rgb-led-matrix) for sharing your sample code
