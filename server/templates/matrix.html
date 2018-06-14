@@ -7,10 +7,17 @@
 
 function postMessage() {
 
+    var nameData = document.getElementById("nameField");
+    var message = document.getElementById("messageData");
+    console.log(nameData.value);
+    console.log(message.value);
+    var dataString = `{"message":"${message.value}"}`;
+
+
     $.ajax({
         url: '/matrix/api/message',
         type: "POST",
-        data: '{"message":"yo yo yo!"}',
+        data: dataString,
         contentType: "application/json",
         dataType:"text xml",
         success: function(xml, textStatus, xhr) {
@@ -35,9 +42,9 @@ function postMessage() {
 <img src ="{{ url_for('static', filename='rc_logo.png') }}">
 <h1>RC Dynamic Display</h1>
 <h2>Make me say something<form>
-<input type="text"placeholder="Name (Optional!)" style="width:10%;">
+<input type="text"placeholder="Name (Optional!)" style="width:10%;" id = "nameField">
 </input>
-<input type="text" style="width:50%;" placeholder="Message">
+<input type="text" style="width:50%;" placeholder="Message" id ="messageData">
 </input>
 <input type="Button" value= "Say it" onclick="postMessage()">
 </input>
