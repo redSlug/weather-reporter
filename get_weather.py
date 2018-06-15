@@ -2,6 +2,7 @@ from darksky import forecast
 from sys import argv
 from PIL import Image, ImageFont, ImageDraw, ImageEnhance, ImageFilter
 import requests
+import datetime
 
 API_KEY = argv[1]
 LAT = argv[2]
@@ -68,12 +69,19 @@ def get_calendar_data():
         print('unable to get calendar data')
         return ''
 
+
 def get_message_data():
     messageURL = 'http://localhost:5000/matrix/api/message'
     result = requests.get(url=messageURL)
-    return result.json().get('messages')[-1]['message']
-
-
+    messageData = result.json().get('messages')[-1]['message']
+    date = result.json().get('messages')[-1]
+    date = date['created']
+    date = datetime.datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
+    now = datetime.datetime.now()
+    if (not ((now-date).total_seconds()) >= 360 ):
+        return messageData
+    else:
+        return ""
 
 
 def get_weather():
