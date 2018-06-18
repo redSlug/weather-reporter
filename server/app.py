@@ -3,13 +3,14 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.sql import func
+import os
 
 from flask import Flask, request, jsonify, render_template
 
 
 app = Flask(__name__)
 app.debug = True
-prod_engine = create_engine('postgresql://user:pass@localhost:5432/prod', convert_unicode=True)
+prod_engine = create_engine(os.environ['DB_URL'], convert_unicode=True)
 Session = sessionmaker()
 app.Session = Session
 Session.configure(bind=prod_engine)

@@ -8,9 +8,7 @@ An API for messages
 
 ## Setup
 
-- install docker
-- `./tools/setup_db.sh` *you might have to run this twice if you see an error
-- `python app.py`
+- `python3 app.py`
 
 ## Useful Commands
 
@@ -24,4 +22,4 @@ An API for messages
 
 `alembic downgrade -1`
 
-`PGUSER=usr PGPASSWORD=pass psql -h localhost -p 5432 prod`
+`sqlite3 db`
