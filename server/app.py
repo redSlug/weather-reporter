@@ -22,6 +22,7 @@ class Message(Base):
 
     id = Column(Integer, primary_key=True)
     message = Column(String, nullable=False)
+    author = Column(String, nullable=True)
     created = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
 
 
@@ -36,8 +37,9 @@ def create_message():
     if 'message' not in data:
         return jsonify({"error": "bad payload"}), 500
     message = data.get('message')
+    author = data.get('author')
 
-    msg = Message(message=message)
+    msg = Message(message=message, author=author)
 
     db_session = app.Session()
 
@@ -45,7 +47,7 @@ def create_message():
         db_session.add(msg)
         db_session.commit()
         return jsonify(dict(
-            data=msg.id, created=msg.created, id=msg.id
+            data=msg.id, created=msg.created, id=msg.id, author=msg.author
         )), 201
     except IntegrityError as e:
         db_session.rollback()
@@ -63,7 +65,9 @@ def get_messages():
 
     messages = [dict(id=str(m.id),
                       created=m.created.strftime("%Y-%m-%d %H:%M:%S"),
-                      message=str(m.message)) for m in messages]
+                      author=m.author,
+                      message=str(m.message))
+                for m in messages]
     return jsonify(dict(messages=messages)), 500
 
 

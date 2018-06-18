@@ -14,13 +14,11 @@ An API for messages
 
 ## Useful Commands
 
-`curl --header "Content-Type: application/json" --request POST --data '{"email":"happy@happy.com","first_name":"Happy"}' http://localhost:5000/api/loyalty/create_new_user`
+`curl --header "Content-Type: application/json" --request POST --data '{"message":"hey!","author":"me"}' http://localhost:5000/matrix/api/message`
 
-`curl --header "Content-Type: application/json" --request POST --data '{"user_id":"5","amount":"1000"}' http://localhost:5000/api/loyalty/create_new_transfer`
+`curl  http://localhost:5000/matrix/api/message`
 
-`curl http://localhost:5000/api/loyalty/user/5/transfers`
-
-`alembic revision --autogenerate -m "Add users and transfers tables"`
+`alembic revision --autogenerate -m "add author field to message"`
 
 `alembic upgrade head`
 
