@@ -23,11 +23,14 @@ weather_files = dict(
 
 
 def replace_banner(currently_icon, summary):
-    summary += get_calendar_data()
+
+    calendar_text = get_calendar_data()
+    calendar_text+= "  "
+    message_text = ""
     try:
         msg = get_message_data()
         if len(msg) < 30:
-            summary += msg
+            message_text += msg
     except:
         pass
     font_size_in_points = 9
@@ -44,15 +47,44 @@ def replace_banner(currently_icon, summary):
 
     current_img = Image.open('images/{}'.format(weather_files[currently_icon]))
 
-    size = (enhanced_summary.width + current_img.width, 16)
+    if message_text:
+       font_size = font.getsize(message_text)
+       message_img = Image.new('RGB', font_size)
+       message_draw = ImageDraw.Draw(message_img)
+       message_draw.text((0, 0), message_text, font=font, fill='red')
+       enh_message = ImageEnhance.Contrast(message_img)
+       enh_message.enhance(1.99).save('images/messagetext.ppm')
+       enhanced_message = Image.open('images/messagetext.ppm')
+       message_width = enhanced_message.width
+    else:
+       message_width = 0
+
+    font_size = font.getsize(calendar_text)
+    calendar_img = Image.new('RGB', font_size)
+    calendar_draw = ImageDraw.Draw(calendar_img)
+    calendar_draw.text((0, 0), calendar_text, font=font, fill='blue')
+    enh_calendar = ImageEnhance.Contrast(calendar_img)
+    enh_calendar.enhance(1.99).save('images/calendartext.ppm')
+
+    enhanced_calendar = Image.open('images/calendartext.ppm')
+
+
+    size = (enhanced_summary.width + current_img.width + enhanced_calendar.width + message_width, 16)
+
     banner = Image.new('RGB', size)
     banner.paste(enhanced_summary, (0, 4))
     banner.paste(current_img, (enhanced_summary.width, 0))
 
-    #colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple']
+        #colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple']
     #for i, color in enumerate(colors):
     #    stripe = Image.new('RGB', (enhanced_summary.width, 1), color)
     #    banner.paste(stripe, (0, i if i < 3 else i + 10))
+    banner.paste(enhanced_calendar, (enhanced_summary.width + current_img.width, 4))
+
+    if message_text:
+       banner.paste(enhanced_message, (enhanced_summary.width + current_img.width + enhanced_calendar.width, 4))
+
+
 
     banner.save('images/weather.ppm')
     exportJpg('images/weather.ppm', 'server/static/display.jpg')
