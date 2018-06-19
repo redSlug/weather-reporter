@@ -1,0 +1,5 @@
+deploy:
+  provider: script
+  script: ssh bd@206.189.229.207 /var/app/weather-reporter/tools/deploy.sh
+  on:
+    branch: develop
