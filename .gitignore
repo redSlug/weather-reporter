@@ -9,5 +9,5 @@ images/weather.ppm
 calendar_data
 images/enh.ppm
 *.pyc
-*__pycache__
+*__pycache__*
 .vagrant/

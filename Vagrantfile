@@ -44,8 +44,6 @@ Vagrant.configure("2") do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   # config.vm.synced_folder "../local", "/dest_vm"
-  config.vm.synced_folder ".", "/var/app/weather-reporter"
-
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
