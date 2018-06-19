@@ -10,3 +10,4 @@ calendar_data
 images/enh.ppm
 *.pyc
 *__pycache__
+.vagrant/
