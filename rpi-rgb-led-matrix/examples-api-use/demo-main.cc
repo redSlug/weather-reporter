@@ -282,7 +282,7 @@ public:
   void Run() {
     const int screen_height = offscreen_->height();
     const int screen_width = offscreen_->width();
-    while (running() && !interrupt_received) {
+    while (running()) {
       {
         MutexLock l(&mutex_new_image_);
         if (new_image_.IsValid()) {
@@ -304,7 +304,12 @@ public:
       }
       offscreen_ = matrix_->SwapOnVSync(offscreen_);
       horizontal_position_ += scroll_jumps_;
-      if (horizontal_position_ < 0) horizontal_position_ = current_image_.width;
+      if (horizontal_position_ < 0) {
+        horizontal_position_ = current_image_.width;
+        if (interrupt_received) {
+            break;
+        }
+      }
       if (scroll_ms_ <= 0) {
         // No scrolling. We don't need the image anymore.
         current_image_.Delete();
