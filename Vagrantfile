@@ -1,4 +1,4 @@
-ls# -*- mode: ruby -*-
+# -*- mode: ruby -*-
 # vi: set ft=ruby :
 
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
