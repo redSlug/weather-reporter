@@ -3,10 +3,10 @@
 apt-get update
 apt-get install -y git python3-pip
 apt-get install sqlite -y
-APP_DIR="/var/app/weather-reporter/server"
+APP_DIR="/var/app/weather-reporter"
 mkdir -p $APP_DIR
 git clone https://github.com/redSlug/weather-reporter.git $APP_DIR
-cd $APP_DIR
+cd $APP_DIR/server
 pip3 install -r requirements.txt
 
 # TODO (crontab -l 2>/dev/null; echo "*/5 * * * * /path/to/job -with args") | crontab -
