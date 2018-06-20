@@ -11,3 +11,4 @@ images/enh.ppm
 *.pyc
 *__pycache__/
 .vagrant/
+db

@@ -3,13 +3,15 @@
 apt-get update
 apt-get install -y git python3-pip
 apt-get install sqlite -y
-APP_DIR="/var/app/weather-reporter"
+APP_DIR="/var/app/weather-reporter/server"
 mkdir -p $APP_DIR
 git clone https://github.com/redSlug/weather-reporter.git $APP_DIR
 cd $APP_DIR
 pip3 install -r requirements.txt
 
-# TODO key stuff differently later
+# TODO (crontab -l 2>/dev/null; echo "*/5 * * * * /path/to/job -with args") | crontab -
+
+# TODO do key stuff differently later
 echo "DARK_SKY_API_KEY=$1" > ~/.SECRET
 echo "LAT=$2" >> ~/.SECRET
 echo "LONG=$3" >> ~/.SECRET
