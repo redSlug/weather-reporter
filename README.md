@@ -4,14 +4,14 @@
 
 ## Setup
 - get a free [Dark Sky API key](https://darksky.net/dev)
-- add network name and password, Dark Sky API key, and GPS LAT and LONG coordinates to `recipe.xml` between the `**` symbols
+- add network name and password between the `**` symbols, removing the `**` symbols
 - flash SD card to full raspian using [PiBakery](http://www.pibakery.org/download.html) and `recipe.xml` 
 - make sure the Pi has an uninterrupted power supply the first time it boots up, so it can install and set up everything it needs to, then you can `ssh pi@weatherpi.local`, password will be `blueberry` unless you change it
 - connect the pi to the MPC1073, connect the MPC1073 to the HUB75 LED matrix [like so](https://github.com/redSlug/weather-reporter/blob/master/images/hw.jpg) 
 - schedule [cronjob](https://www.raspberrypi.org/documentation/linux/usage/cron.md) to get weather every two minutes, and render upon boot
 ```console
-*/2 * * * * /home/pi/weather-reporter/get_weather.sh >> /home/pi/weather-reporter/log
-@reboot /home/pi/weather-reporter/show_weather.sh >> /home/pi/weather-reporter/log
+*/2 * * * * /home/pi/weather-reporter/pi/get_weather.sh >> /home/pi/weather-reporter/log
+@reboot /home/pi/weather-reporter/pi/show_weather.sh >> /home/pi/weather-reporter/log
 ```
 
 ## BOM
@@ -21,7 +21,6 @@
 - [32x16 LED matrix](https://www.adafruit.com/product/420) with ribbon and 5 Volt 2 Amp power supply
 
 ## Troubleshooting
-- SSH Passphrase is `hello`
 - `curl https://api.darksky.net/forecast/<API_KEY>/37.8267,-122.4233`
 - notice what happens on the grid when `sudo ping -f -s 30000 weatherpi.local`
 

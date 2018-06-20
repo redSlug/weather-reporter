@@ -1,9 +1,0 @@
-deploy:
-  provider: script
-  script:
-    - eval "$(ssh-agent -s)"
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-    - ssh bd@206.189.229.207 /var/app/weather-reporter/tools/deploy.sh
-    -
-  on:
-    branch: develop

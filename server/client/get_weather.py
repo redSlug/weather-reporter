@@ -84,10 +84,8 @@ def replace_banner(currently_icon, summary):
     if message_text:
        banner.paste(enhanced_message, (enhanced_summary.width + current_img.width + enhanced_calendar.width, 4))
 
-
-
-    banner.save('images/weather.ppm')
-    exportJpg('images/weather.ppm', 'server/static/display.jpg')
+    banner.save('generated/weather.ppm')
+    exportJpg('generated/weather.ppm', '../static/display.jpg')
 
 
 def get_calendar_data():
