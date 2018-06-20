@@ -19,6 +19,7 @@ delay_milliseconds=18
 
 trap cleanup EXIT
 while true; do
+    # TODO hit server endpoint or get image via ssh
     modified=`date +%s -r $image_file`
     if [ $modified -eq $last_modified ]; then
 	echo -n "." >> log
