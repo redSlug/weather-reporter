@@ -67,6 +67,5 @@ Vagrant.configure("2") do |config|
   #   apt-get update
   #   apt-get install -y apache2
   # SHELL
-
-   config.vm.provision "shell", path: "tools/server/bootstrap.sh"
+   config.vm.provision "shell", path: "server/tools/bootstrap.sh"
 end
