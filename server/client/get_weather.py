@@ -107,7 +107,8 @@ def get_calendar_data():
 
 
 def get_message_data():
-    messageURL = 'http://localhost:5000/matrix/api/message'
+    # TODO connect to db directly maybe?? or make it port 5000 if local debug
+    messageURL = 'http://localhost:8000/matrix/api/message'
     result = requests.get(url=messageURL)
     data = result.json().get('messages')[-1]
     message, author = data['message'], data['author']
