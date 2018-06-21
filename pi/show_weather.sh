@@ -11,10 +11,7 @@ two_minutes=120000
 
 trap cleanup EXIT
 while true; do
-    # TODO create an endpoint that takes GPS coordinates and returns display.ppm
-    source="bd@206.189.229.207:/home/bd/weather-reporter/client/generated/weather.ppm"
-    target="weather.ppm"
-    scp $source $target
+    wget http://206.189.229.207/static/weather.ppm
     if [ $? -eq 0 ];
     then
         echo "scp succeeded"
