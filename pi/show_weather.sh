@@ -9,6 +9,14 @@ cleanup() {
     exit
 }
 
+
+pushd /home/pi/weather-reporter/pi
+image_file="weather.ppm"
+if [ ! -f $image_file ]; then
+    echo "File not found!" >> log
+    exit 1
+fi
+
 delay_milliseconds=18
 
 trap cleanup EXIT
@@ -19,9 +27,11 @@ while true; do
     then
         echo "wget succeeded"
         sudo pkill demo
-	    sudo rpi-rgb-led-matrix/examples-api-use/demo -D 1 $target --led-no-hardware-pulse --led-rows=16 --led-cols=32 -m $delay_milliseconds --led-daemon --led-brightness=10
+	    sudo rpi-rgb-led-matrix/examples-api-use/demo -D 1 $image_file --led-no-hardware-pulse --led-rows=16 --led-cols=32 -m $delay_milliseconds --led-daemon --led-brightness=10
     else
         echo "wget failed - file was likely not modified"
     fi
     sleep 2m
 done
+
+popd
