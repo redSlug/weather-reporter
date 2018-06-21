@@ -33,17 +33,11 @@ def replace_banner(currently_icon, summary):
 
     calendar_text = get_calendar_data()
     calendar_text+= "  "
-    message_text = ""
-    try:
-        msg = get_message_data()
-        if len(msg) < 30:
-            message_text += msg
-    except:
-        pass
+    message_text = get_message_data()
     font_size_in_points = 9
     font = ImageFont.truetype(FONTS_DIR + 'led.ttf', font_size_in_points)
     font_size = font.getsize(summary)
-    print('summary: {}, font size: {}'.format(summary, font_size))
+    print('summary: {}, font size: {} calendar_text: {}, message_text{}'.format(summary, font_size, calendar_text, message_text))
     summary_img = Image.new('RGB', font_size)
     draw = ImageDraw.Draw(summary_img)
     draw.text((0, 0), summary, font=font)
