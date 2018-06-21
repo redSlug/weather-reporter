@@ -11,6 +11,7 @@ An API for messages
 - `python3 app.py`
 
 ## Useful Commands
+`sudo supervisorctl start weather-reporter`
 
 `curl --header "Content-Type: application/json" --request POST --data '{"message":"hey!","author":"me"}' http://localhost:5000/matrix/api/message`
 

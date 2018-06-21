@@ -3,10 +3,17 @@ from sys import argv
 from PIL import Image, ImageFont, ImageDraw, ImageEnhance, ImageFilter
 import requests
 import datetime
+import os
 
-API_KEY = argv[1]
-LAT = argv[2]
-LONG = argv[3]
+API_KEY = os.environ['DARK_SKY_API_KEY']
+LAT = os.environ['LAT']
+LONG = os.environ['LONG']
+
+IMAGES_DIR = 'client/images/'
+FONTS_DIR = 'client/fonts/'
+GENERATED_DIR = 'client/generated/'
+STATIC_DIR = 'static/'
+CALENDAR_DATA = 'client/generated/calendar_data'
 
 weather_files = dict(
     clear_day='dark_sun.ppm',
@@ -34,18 +41,18 @@ def replace_banner(currently_icon, summary):
     except:
         pass
     font_size_in_points = 9
-    font = ImageFont.truetype('fonts/led.ttf', font_size_in_points)
+    font = ImageFont.truetype(FONTS_DIR + 'led.ttf', font_size_in_points)
     font_size = font.getsize(summary)
     print('summary: {}, font size: {}'.format(summary, font_size))
     summary_img = Image.new('RGB', font_size)
     draw = ImageDraw.Draw(summary_img)
     draw.text((0, 0), summary, font=font)
     enh = ImageEnhance.Contrast(summary_img)
-    enh.enhance(1.99).save('images/enh.ppm')
+    enh.enhance(1.99).save(GENERATED_DIR + 'enh.ppm')
 
-    enhanced_summary = Image.open('images/enh.ppm')
+    enhanced_summary = Image.open(GENERATED_DIR + 'enh.ppm')
 
-    current_img = Image.open('images/{}'.format(weather_files[currently_icon]))
+    current_img = Image.open('{}{}'.format(IMAGES_DIR, weather_files[currently_icon]))
 
     if message_text:
        font_size = font.getsize(message_text)
@@ -53,8 +60,8 @@ def replace_banner(currently_icon, summary):
        message_draw = ImageDraw.Draw(message_img)
        message_draw.text((0, 0), message_text, font=font, fill='red')
        enh_message = ImageEnhance.Contrast(message_img)
-       enh_message.enhance(1.99).save('images/messagetext.ppm')
-       enhanced_message = Image.open('images/messagetext.ppm')
+       enh_message.enhance(1.99).save(GENERATED_DIR + 'messagetext.ppm')
+       enhanced_message = Image.open(GENERATED_DIR + 'messagetext.ppm')
        message_width = enhanced_message.width
     else:
        message_width = 0
@@ -64,9 +71,9 @@ def replace_banner(currently_icon, summary):
     calendar_draw = ImageDraw.Draw(calendar_img)
     calendar_draw.text((0, 0), calendar_text, font=font, fill='blue')
     enh_calendar = ImageEnhance.Contrast(calendar_img)
-    enh_calendar.enhance(1.99).save('images/calendartext.ppm')
+    enh_calendar.enhance(1.99).save(GENERATED_DIR + 'calendartext.ppm')
 
-    enhanced_calendar = Image.open('images/calendartext.ppm')
+    enhanced_calendar = Image.open(GENERATED_DIR + 'calendartext.ppm')
 
 
     size = (enhanced_summary.width + current_img.width + enhanced_calendar.width + message_width, 16)
@@ -84,13 +91,13 @@ def replace_banner(currently_icon, summary):
     if message_text:
        banner.paste(enhanced_message, (enhanced_summary.width + current_img.width + enhanced_calendar.width, 4))
 
-    banner.save('generated/weather.ppm')
-    exportJpg('generated/weather.ppm', '../static/display.jpg')
+    banner.save(GENERATED_DIR + 'weather.ppm')
+    exportJpg(GENERATED_DIR + 'weather.ppm', STATIC_DIR + 'display.jpg')
 
 
 def get_calendar_data():
     try:
-        with open('calendar_data') as f:
+        with open(CALENDAR_DATA) as f:
                 l = f.readline()
                 if len(l) > 120:
                     l = l[:120]

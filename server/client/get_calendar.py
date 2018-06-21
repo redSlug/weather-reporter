@@ -1,11 +1,12 @@
 import re
 import datetime
-import sys
+import os
 import requests
 import pytz
 
 SUMMARY_LIMIT = 25
 CALENDAR_DATA_LIMIT = 120
+CALENDAR_DATA = 'client/generated/calendar_data'
 
 def getEventsInFuture(calendar_token):
     calendarURL = 'https://www.recurse.com/calendar/events.ics?token=' + calendar_token
@@ -60,9 +61,8 @@ def getEventsInFuture(calendar_token):
 
     if len(event_dictionary):
         event_data = ' Upcoming: ' + event_data
-    
-    with open('calendar_data', 'w') as f:
+    with open(CALENDAR_DATA, 'w') as f:
         f.write(event_data)
 
 if __name__ == "__main__":
-    getEventsInFuture(sys.argv[1])
+    getEventsInFuture(os.environ['CALENDAR_TOKEN'])

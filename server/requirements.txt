@@ -6,6 +6,7 @@ darksky==0.3
 darkskylib==0.3.91
 Flask==1.0.2
 future==0.16.0
+gunicorn
 idna==2.6
 itsdangerous==0.24
 Jinja2==2.10

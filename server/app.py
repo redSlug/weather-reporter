@@ -3,6 +3,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.sql import func
+from werkzeug.contrib.fixers import ProxyFix
 import os
 
 from flask import Flask, request, jsonify, render_template
@@ -10,6 +11,7 @@ from flask import Flask, request, jsonify, render_template
 
 app = Flask(__name__)
 app.debug = True
+app.wsgi_app = ProxyFix(app.wsgi_app)
 prod_engine = create_engine(os.environ['DB_URL'], convert_unicode=True)
 Session = sessionmaker()
 app.Session = Session
@@ -25,6 +27,11 @@ class Message(Base):
     message = Column(String, nullable=False)
     author = Column(String, nullable=True)
     created = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+
+@app.route('/')
+def home():
+    return render_template('matrix.html')
 
 
 @app.route('/<string:page_name>/')
