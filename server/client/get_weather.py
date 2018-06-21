@@ -58,7 +58,7 @@ def replace_banner(currently_icon, summary):
        font_size = font.getsize(message_text)
        message_img = Image.new('RGB', font_size)
        message_draw = ImageDraw.Draw(message_img)
-       message_draw.text((0, 0), message_text, font=font, fill='red')
+       message_draw.text((0, 0), message_text, font=font, fill='GreenYellow')
        enh_message = ImageEnhance.Contrast(message_img)
        enh_message.enhance(1.99).save(GENERATED_DIR + 'messagetext.ppm')
        enhanced_message = Image.open(GENERATED_DIR + 'messagetext.ppm')
@@ -69,7 +69,7 @@ def replace_banner(currently_icon, summary):
     font_size = font.getsize(calendar_text)
     calendar_img = Image.new('RGB', font_size)
     calendar_draw = ImageDraw.Draw(calendar_img)
-    calendar_draw.text((0, 0), calendar_text, font=font, fill='blue')
+    calendar_draw.text((0, 0), calendar_text, font=font, fill='cyan')
     enh_calendar = ImageEnhance.Contrast(calendar_img)
     enh_calendar.enhance(1.99).save(GENERATED_DIR + 'calendartext.ppm')
 
@@ -82,16 +82,17 @@ def replace_banner(currently_icon, summary):
     banner.paste(enhanced_summary, (0, 4))
     banner.paste(current_img, (enhanced_summary.width, 0))
 
-        #colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple']
-    #for i, color in enumerate(colors):
-    #    stripe = Image.new('RGB', (enhanced_summary.width, 1), color)
-    #    banner.paste(stripe, (0, i if i < 3 else i + 10))
+    colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple']
+    for i, color in enumerate(colors):
+       stripe = Image.new('RGB', (enhanced_summary.width, 1), color)
+       banner.paste(stripe, (0, i if i < 3 else i + 10))
     banner.paste(enhanced_calendar, (enhanced_summary.width + current_img.width, 4))
 
     if message_text:
        banner.paste(enhanced_message, (enhanced_summary.width + current_img.width + enhanced_calendar.width, 4))
 
     banner.save(GENERATED_DIR + 'weather.ppm')
+    banner.save(STATIC_DIR + 'weather.ppm')
     exportJpg(GENERATED_DIR + 'weather.ppm', STATIC_DIR + 'display.jpg')
 
 
@@ -99,8 +100,6 @@ def get_calendar_data():
     try:
         with open(CALENDAR_DATA) as f:
                 l = f.readline()
-                if len(l) > 120:
-                    l = l[:120]
                 return l.rstrip()
     except:
         print('unable to get calendar data')
@@ -110,13 +109,17 @@ def get_calendar_data():
 def get_message_data():
     messageURL = 'http://localhost:5000/matrix/api/message'
     result = requests.get(url=messageURL)
-    messageData = result.json().get('messages')[-1]['message']
+    data = result.json().get('messages')[-1]
+    message, author = data['message'], data['author']
+
     date = result.json().get('messages')[-1]
     date = date['created']
     date = datetime.datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
     now = datetime.datetime.now()
     if (not ((now-date).total_seconds()) >= 360 ):
-        return messageData
+        if author:
+            return author + ": " + message + " "
+        return message + " "
     else:
         return ""
 
