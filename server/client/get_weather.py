@@ -111,17 +111,9 @@ def get_message_data():
     result = requests.get(url=messageURL)
     data = result.json().get('messages')[-1]
     message, author = data['message'], data['author']
-
-    date = result.json().get('messages')[-1]
-    date = date['created']
-    date = datetime.datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
-    now = datetime.datetime.now()
-    if (not ((now-date).total_seconds()) >= 360 ):
-        if author:
-            return author + ": " + message + " "
-        return message + " "
-    else:
-        return ""
+    if author:
+        return author + ": " + message + " "
+    return message + " "
 
 
 def get_weather():
