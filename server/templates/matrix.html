@@ -11,7 +11,7 @@ function postMessage() {
     var message = document.getElementById("messageData");
     console.log(nameData.value);
     console.log(message.value);
-    var dataString = `{"message":"${message.value}"}`;
+    var dataString = `{"message":"${message.value}","author":"${nameData.value}"}`;
 
 
     $.ajax({
