@@ -116,11 +116,17 @@ def get_weather():
     currently_icon = location.currently.icon.replace('-', '_')
     uv = location.currently.uvIndex
     humidity = int(location.currently.humidity * 100)
-    summary = location.hourly.summary
     low = int(location.daily.data[0].apparentTemperatureLow)
     high = int(location.daily.data[0].apparentTemperatureHigh)
     chance_rain = int(location.currently.precipProbability * 100)
-    summary ='{low}-{high}F humid:{humid}% uv:{uv} rain:{rain}% '.format(low=low, high=high, uv=uv, humid=humidity, rain=chance_rain) + summary
+    summary = location.hourly.summary
+    summary += '{low}-{high}F '.format(low=low, high=high,)
+    if humidity:
+        summary += 'humid:{humid}% '.format(humid=humidity)
+    if uv:
+        summary += 'uv:{uv}'.format(uv=uv)
+    if chance_rain:
+        summary += 'rain:{rain}%'.format(rain=chance_rain)
     return dict(currently_icon=currently_icon, summary=summary)
 
 
