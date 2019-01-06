@@ -154,7 +154,11 @@ def get_message_text():
     url = 'http://localhost:{}/matrix/api/message'.format(
         os.environ['APP_PORT'])
     result = requests.get(url=url)
-    return result.json().get('messages')[-1]['message'] + ' '
+    message = result.json().get('messages')
+    if not message:
+        return ' ' # to avoid div by zero when creating img
+
+    return message[-1]['message'] + ' '
 
 
 if __name__ == '__main__':
