@@ -17,7 +17,7 @@ images/enh.ppm
 .vagrant/
 db
 
-
+server/static/display.jpg
 server/db
 
 server/client/generated/*
