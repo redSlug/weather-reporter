@@ -6,6 +6,7 @@ darksky==0.3
 darkskylib==0.3.91
 Flask==1.0.2
 future==0.16.0
+gtfs-realtime-bindings==0.0.5
 gunicorn==19.9.0
 idna==2.6
 itsdangerous==0.24
@@ -15,6 +16,8 @@ mapq==0.3
 MarkupSafe==1.0
 numpy==1.14.2
 Pillow==5.1.0
+protobuf==3.6.1
+protobuf3-to-dict==0.1.5
 psycopg2==2.7.4
 python-dateutil==2.7.3
 python-dotenv==0.10.1
