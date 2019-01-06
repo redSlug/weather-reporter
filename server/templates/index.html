@@ -1,8 +1,8 @@
 <html>
 <head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-<script>
+    <script>
 
 
 function postMessage() {
@@ -32,36 +32,44 @@ function postMessage() {
  event.preventDefault();
 }
 
-
-</script>
-<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
-<link href="https://fonts.googleapis.com/css?family=Sunflower:300" rel="stylesheet">
-<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    </script>
+    <link rel=stylesheet type=text/css
+          href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Sunflower:300"
+          rel="stylesheet">
+    <link rel="shortcut icon"
+          href="{{ url_for('static', filename='favicon.ico') }}">
 
 </head>
 <body>
 <div align="center" class="top">
-<img src ="{{ url_for('static', filename='rc_logo.png') }}">
-<h1>RC Dynamic Display</h1>
-<h2>Make me say something<form>
-<input type="text"placeholder="Name (Optional!)" style="width:10%;" id = "nameField">
-</input>
-<input type="text" style="width:50%;" placeholder="Message" id ="messageData">
-</input>
-<input type="Button" value= "Say it" onclick="postMessage()">
-</input>
-</form>
-</h2>
-<img src ="{{ url_for('static', filename='display.jpg') }}" style="width:100%;">
+    <img src="{{ url_for('static', filename='rc_logo.png') }}">
+    <h1>RC Dynamic Display</h1>
+    <h2>Make me say something
+        <form>
+            <input type="text" placeholder="Name (Optional!)"
+                   style="width:10%;" id="nameField">
+            </input>
+            <input type="text" style="width:50%;" placeholder="Message"
+                   id="messageData">
+            </input>
+            <input type="Button" value="Say it" onclick="postMessage()">
+            </input>
+        </form>
+    </h2>
+    <img src="{{ url_for('static', filename='display.jpg') }}"
+         style="width:100%;">
 </div>
 <div style="border-bottom:solid;">
 
 </div>
 
 <h2>What is it?</h2>
-The RC dynamic display is an LED dot matrix display which shows relevant information for those in the space, including:
+The RC dynamic display is an LED dot matrix display which shows relevant
+information for those in the space, including:
 <ul>
-    <li>Weather Information <a href="https://darksky.net/dev">Powered by Dark Sky</a></li>
+    <li>Weather Information <a href="https://darksky.net/dev">Powered by Dark
+        Sky</a></li>
     <li><a href="https://www.recurse.com/calendar">Upcoming Events</a></li>
     <li><a href="{{ url_for('get_messages') }}">Public Messages</a></li>
 </ul>
@@ -70,7 +78,8 @@ The RC dynamic display is an LED dot matrix display which shows relevant informa
 <a href="https://github.com/redSlug/weather-reporter">Submit a pull request</a>
 
 <h2>Feedback/Content</h2>
-You can give feedback on the project via this <a href="https://goo.gl/forms/qfSTRsV8FGikyNP32">Survey</a>.
+You can give feedback on the project via this <a
+        href="https://goo.gl/forms/qfSTRsV8FGikyNP32">Survey</a>.
 
 </body>
 </html>
