@@ -5,10 +5,13 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.sql import func
 from werkzeug.contrib.fixers import ProxyFix
 import os
+from dotenv import load_dotenv, find_dotenv
+
 
 from flask import Flask, request, jsonify, render_template
 
 
+load_dotenv(find_dotenv())
 app = Flask(__name__)
 app.debug = True
 app.wsgi_app = ProxyFix(app.wsgi_app)
@@ -31,7 +34,7 @@ class Message(Base):
 
 @app.route('/')
 def home():
-    return render_template('matrix.html')
+    return render_template('index.html')
 
 
 @app.route('/<string:page_name>/')
