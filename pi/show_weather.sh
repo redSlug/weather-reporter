@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # crontab
-# reboot /home/pi/weather-reporter/pi/show_weather.sh >> /home/pi/weather-reporter/log
+# @reboot /home/pi/weather-reporter/pi/show_weather.sh >> /home/pi/weather-reporter/log
 
 cleanup() {
     echo "Cleaning stuff up" >> log
