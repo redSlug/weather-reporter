@@ -5,6 +5,7 @@ import requests
 import datetime
 import os
 from dotenv import load_dotenv, find_dotenv
+from collections import namedtuple
 
 
 IMAGES_DIR = 'client/images/'
@@ -27,7 +28,10 @@ weather_files = dict(
 )
 
 
-class WeatherInfo:
+WeatherData = namedtuple('WeatherData', 'currently_icon, summary')
+
+
+class DarkSkyWeather:
     def __init__(self, api_key, lat, long):
         self.api_key = api_key
         self.lat = lat
@@ -49,16 +53,15 @@ class WeatherInfo:
             summary += 'uv:{uv}'.format(uv=uv)
         if chance_rain:
             summary += 'rain:{rain}%'.format(rain=chance_rain)
-        return dict(currently_icon=currently_icon, summary=summary)
+        return WeatherData(currently_icon=currently_icon, summary=summary)
 
 
 class BannerMaker:
 
-    def replace_banner(self, currently_icon, summary):
+    def replace_banner(self, weather, calendar_text, message_text):
+        currently_icon = weather.currently_icon
+        summary = weather.summary
 
-        calendar_text = get_calendar_data()
-        calendar_text+= "  "
-        message_text = get_message_data()
         font_size_in_points = 9
         font = ImageFont.truetype(FONTS_DIR + 'led.ttf', font_size_in_points)
         font_size = font.getsize(summary)
@@ -93,7 +96,6 @@ class BannerMaker:
         enh_calendar.enhance(1.99).save(GENERATED_DIR + 'calendartext.ppm')
 
         enhanced_calendar = Image.open(GENERATED_DIR + 'calendartext.ppm')
-
 
         size = (enhanced_summary.width + current_img.width + enhanced_calendar.width + message_width, 16)
 
@@ -147,6 +149,14 @@ if __name__ == '__main__':
     API_KEY = os.environ['DARK_SKY_API_KEY']
     LAT = os.environ['LAT']
     LONG = os.environ['LONG']
-    wi = WeatherInfo(api_key=API_KEY, lat=LAT, long=LONG)
+    dsw = DarkSkyWeather(api_key=API_KEY, lat=LAT, long=LONG)
+    weather_data = dsw.get_weather()
+    calendar_text = get_calendar_data()
+    calendar_text += "  "
+    message_text = get_message_data()
+
     bm = BannerMaker()
-    bm.replace_banner(**wi.get_weather())
+    bm.replace_banner(
+        weather=weather_data,
+        calendar_text=calendar_text,
+        message_text=message_text)
