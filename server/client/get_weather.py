@@ -146,7 +146,7 @@ def get_calendar_text():
             return l.rstrip()
     except:
         print('unable to get calendar data')
-        return ''
+        return ' '  # hack to avoid div by zero when creating img
 
 
 def get_message_text():
@@ -156,7 +156,7 @@ def get_message_text():
     result = requests.get(url=url)
     message = result.json().get('messages')
     if not message:
-        return ' ' # to avoid div by zero when creating img
+        return ' '  # hack to avoid div by zero when creating img
 
     return message[-1]['message'] + ' '
 
@@ -169,14 +169,16 @@ if __name__ == '__main__':
     dsw = DarkSkyWeather(api_key=DARK_SKY_API_KEY, lat=LAT, long=LONG)
     weather = dsw.get_weather()
     message_text = get_message_text()
+    calendar_text = get_calendar_text()
 
-    print('message_text= #'.format(message_text))
+    print('message_text={}#'.format(message_text))
+    print('calendar_text={}#'.format(calendar_text))
 
     rc_banner = BannerMaker(banner_id='')
 
     rc_banner.replace_banner(
         weather=weather,
-        calendar_text=get_calendar_text(),
+        calendar_text=calendar_text,
         message_text=message_text
     )
 
