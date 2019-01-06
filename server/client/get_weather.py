@@ -170,6 +170,8 @@ if __name__ == '__main__':
     weather = dsw.get_weather()
     message_text = get_message_text()
 
+    print('message_text= #'.format(message_text))
+
     rc_banner = BannerMaker(banner_id='')
 
     rc_banner.replace_banner(
