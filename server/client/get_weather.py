@@ -133,15 +133,10 @@ def get_calendar_data():
 
 
 def get_message_data():
-    return "TODO bring message data back!"
     # # TODO connect to db directly maybe?? or make it port 5000 if local debug
-    # messageURL = 'http://localhost:8000/matrix/api/message'
-    # result = requests.get(url=messageURL)
-    # data = result.json().get('messages')[-1]
-    # message, author = data['message'], data['author']
-    # if author:
-    #     return author + ": " + message + " "
-    # return message + " "
+    url = 'http://localhost:{}/matrix/api/message'.format(os.environ['APP_PORT'])
+    result = requests.get(url=url)
+    return result.json().get('messages')[-1]['message'] + ' '
 
 
 if __name__ == '__main__':
@@ -159,4 +154,5 @@ if __name__ == '__main__':
     bm.replace_banner(
         weather=weather_data,
         calendar_text=calendar_text,
-        message_text=message_text)
+        message_text=message_text
+    )
