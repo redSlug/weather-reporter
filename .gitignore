@@ -17,6 +17,9 @@ images/enh.ppm
 .vagrant/
 db
 
+server/static/display_2.jpg
+server/static/display_2.ppm
+
 server/static/display.jpg
 server/db
 
