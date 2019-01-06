@@ -16,3 +16,9 @@ images/enh.ppm
 *__pycache__/
 .vagrant/
 db
+
+
+server/db
+
+server/client/generated/*
+server/static/weather.ppm
