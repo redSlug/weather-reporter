@@ -17,12 +17,15 @@
 ## BOM
 - Raspberry Pi or Pi Zero with [Hammer Header Male Connector](https://www.adafruit.com/product/3662?gclid=CjwKCAjw_47YBRBxEiwAYuKdw5l9LOCGMq1DYlVqqCFQ7JWwCHZdirC31xi53t6ke8LuWUJVX_u75RoCaIEQAvD_BwE), and power supply
 - [MPC1073](http://www.electrodragon.com/product/rgb-matrix-panel-drive-board-raspberry-pi/) and CR1220 battery
-- 8GB+ SD card, and card reader / writer
+- 16+ GB SD card, and card reader / writer
 - [32x16 LED matrix](https://www.adafruit.com/product/420) with ribbon and 5 Volt 2 Amp power supply
+- [Female DC Power adapter - 2.1mm jack to screw terminal block](https://www.adafruit.com/product/368) to go in back of the LED Matrix
 
 ## Troubleshooting
 - `curl https://api.darksky.net/forecast/<API_KEY>/37.8267,-122.4233`
 - notice what happens on the grid when `sudo ping -f -s 30000 weatherpi.local`
+- wait at least 2 minutes after powering your pi with the LED display for the weather to appear
+- after plugging in a pi with a freshly baked flash card, wait at least 5 minutes
 
 ## Thank You
 - [Henner Zeller](https://github.com/hzeller/rpi-rgb-led-matrix) for sharing your sample code
