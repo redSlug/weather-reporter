@@ -9,6 +9,10 @@ An API for messages
 ## Setup
 
 - `python3 app.py`
+- `/etc/supervisor/conf.d/weather-reporter.conf`
+- `/etc/nginx/sites-available/weather-reporter`
+- [infra stuff](https://docs.google.com/presentation/d/1g8D7R-jyDUReKxFoGk_zN5-uWEcSOi6rIvGGKv4PAVI/edit#slide=id.g3d18660b80_0_10)
+
 
 ## Useful Commands
 `sudo supervisorctl start weather-reporter`
@@ -24,3 +28,4 @@ An API for messages
 `alembic downgrade -1`
 
 `sqlite3 db`
+

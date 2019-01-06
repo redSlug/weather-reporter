@@ -150,15 +150,16 @@ def get_calendar_text():
 
 
 def get_message_text():
+    return 'i am broken. message bdettmer@gmail.com if you know about nginx and want to help '
     # TODO connect to db directly maybe?? or make it port 5000 if local debug
-    url = 'http://localhost:{}/matrix/api/message'.format(
-        os.environ['APP_PORT'])
-    result = requests.get(url=url)
-    message = result.json().get('messages')
-    if not message:
-        return ' '  # hack to avoid div by zero when creating img
-
-    return message[-1]['message'] + ' '
+    # url = 'http://localhost:{}/matrix/api/message'.format(
+    #     os.environ['APP_PORT'])
+    # result = requests.get(url=url)
+    # message = result.json().get('messages')
+    # if not message:
+    #     return ' '  # hack to avoid div by zero when creating img
+    #
+    # return message[-1]['message'] + ' '
 
 
 if __name__ == '__main__':
