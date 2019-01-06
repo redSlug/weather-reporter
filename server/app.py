@@ -31,7 +31,7 @@ class Message(Base):
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('matrix.html')
 
 
 @app.route('/<string:page_name>/')
