@@ -3,36 +3,35 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <script>
+        function postMessage() {
+
+            var nameData = document.getElementById("nameField");
+            var message = document.getElementById("messageData");
+            console.log(nameData.value);
+            console.log(message.value);
+            var dataString = `{"message":"${message.value}","author":"${nameData.value}"}`;
 
 
-function postMessage() {
+            $.ajax({
+                url: '/matrix/api/message',
+                type: "POST",
+                data: dataString,
+                contentType: "application/json",
+                dataType:"text xml",
+                success: function(xml, textStatus, xhr) {
+                console.log(xhr.status);
+                },
+                complete: function(xhr, textStatus) {
+                alert(xhr.status);
+                console.log(xhr.status);
+                }
+            });
 
-    var nameData = document.getElementById("nameField");
-    var message = document.getElementById("messageData");
-    console.log(nameData.value);
-    console.log(message.value);
-    var dataString = `{"message":"${message.value}","author":"${nameData.value}"}`;
-
-
-    $.ajax({
-        url: '/matrix/api/message',
-        type: "POST",
-        data: dataString,
-        contentType: "application/json",
-        dataType:"text xml",
-        success: function(xml, textStatus, xhr) {
-        console.log(xhr.status);
-        },
-        complete: function(xhr, textStatus) {
-        alert(xhr.status);
-        console.log(xhr.status);
+         event.preventDefault();
         }
-    });
-
- event.preventDefault();
-}
 
     </script>
+
     <link rel=stylesheet type=text/css
           href="{{ url_for('static', filename='style.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Sunflower:300"
@@ -68,10 +67,9 @@ function postMessage() {
 The RC dynamic display is an LED dot matrix display which shows relevant
 information for those in the space, including:
 <ul>
-    <li>Weather Information <a href="https://darksky.net/dev">Powered by Dark
-        Sky</a></li>
     <li><a href="https://www.recurse.com/calendar">Upcoming Events</a></li>
     <li><a href="{{ url_for('get_messages') }}">Public Messages</a></li>
+    <li>Weather <a href="https://darksky.net/dev">Powered by DarkSky</a></li>
 </ul>
 
 <h2>Program Me!</h2>
