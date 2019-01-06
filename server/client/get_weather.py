@@ -6,10 +6,6 @@ import datetime
 import os
 from dotenv import load_dotenv, find_dotenv
 
-load_dotenv(find_dotenv())
-API_KEY = os.environ['DARK_SKY_API_KEY']
-LAT = os.environ['LAT']
-LONG = os.environ['LONG']
 
 IMAGES_DIR = 'client/images/'
 FONTS_DIR = 'client/fonts/'
@@ -29,6 +25,31 @@ weather_files = dict(
     partly_cloudy_day='partly_cloudy_day.ppm',
     partly_cloudy_night='partly_cloudy_night.ppm'
 )
+
+
+class WeatherInfo:
+    def __init__(self, api_key, lat, long):
+        self.api_key = api_key
+        self.lat = lat
+        self.long = long
+
+    def get_weather(self):
+        location = forecast(self.api_key, self.lat, self.long)
+        currently_icon = location.currently.icon.replace('-', '_')
+        uv = location.currently.uvIndex
+        humidity = int(location.currently.humidity * 100)
+        low = int(location.daily.data[0].apparentTemperatureLow)
+        high = int(location.daily.data[0].apparentTemperatureHigh)
+        chance_rain = int(location.currently.precipProbability * 100)
+        summary = location.hourly.summary
+        summary += '{low}-{high}F '.format(low=low, high=high, )
+        if humidity:
+            summary += 'humid:{humid}% '.format(humid=humidity)
+        if uv:
+            summary += 'uv:{uv}'.format(uv=uv)
+        if chance_rain:
+            summary += 'rain:{rain}%'.format(rain=chance_rain)
+        return dict(currently_icon=currently_icon, summary=summary)
 
 
 def replace_banner(currently_icon, summary):
@@ -103,7 +124,7 @@ def get_calendar_data():
 
 
 def get_message_data():
-    return "TODO bring message data back"
+    return "TODO bring message data back!"
     # # TODO connect to db directly maybe?? or make it port 5000 if local debug
     # messageURL = 'http://localhost:8000/matrix/api/message'
     # result = requests.get(url=messageURL)
@@ -114,29 +135,15 @@ def get_message_data():
     # return message + " "
 
 
-def get_weather():
-    location = forecast(API_KEY, LAT, LONG)
-    currently_icon = location.currently.icon.replace('-', '_')
-    uv = location.currently.uvIndex
-    humidity = int(location.currently.humidity * 100)
-    low = int(location.daily.data[0].apparentTemperatureLow)
-    high = int(location.daily.data[0].apparentTemperatureHigh)
-    chance_rain = int(location.currently.precipProbability * 100)
-    summary = location.hourly.summary
-    summary += '{low}-{high}F '.format(low=low, high=high,)
-    if humidity:
-        summary += 'humid:{humid}% '.format(humid=humidity)
-    if uv:
-        summary += 'uv:{uv}'.format(uv=uv)
-    if chance_rain:
-        summary += 'rain:{rain}%'.format(rain=chance_rain)
-    return dict(currently_icon=currently_icon, summary=summary)
-
-
 def exportJpg(ppmFilePath,outputFilePath):
     im = Image.open(ppmFilePath)
     im.save(outputFilePath)
 
 
 if __name__ == '__main__':
-    replace_banner(**get_weather())
+    load_dotenv(find_dotenv())
+    API_KEY = os.environ['DARK_SKY_API_KEY']
+    LAT = os.environ['LAT']
+    LONG = os.environ['LONG']
+    wi = WeatherInfo(api_key=API_KEY, lat=LAT, long=LONG)
+    replace_banner(**wi.get_weather())
