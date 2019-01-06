@@ -7,6 +7,9 @@ trash
 venv
 .DS_Store
 images/weather.ppm
+.env
+venv
+server/.gitignore
 calendar_data
 images/enh.ppm
 *.pyc
