@@ -7,7 +7,6 @@ import os
 from dotenv import load_dotenv, find_dotenv
 from collections import namedtuple
 
-
 IMAGES_DIR = 'client/images/'
 FONTS_DIR = 'client/fonts/'
 GENERATED_DIR = 'client/generated/'
@@ -27,7 +26,6 @@ weather_files = dict(
     partly_cloudy_night='partly_cloudy_night.ppm'
 )
 
-
 WeatherData = namedtuple('WeatherData', 'currently_icon, summary')
 
 
@@ -40,7 +38,7 @@ class DarkSkyWeather:
     def get_weather(self):
         location = forecast(self.api_key, self.lat, self.long)
         currently_icon = location.currently.icon.replace('-', '_')
-        uv = location.currently.uvIndex
+        uv = None  # location.currently.uvIndex
         humidity = int(location.currently.humidity * 100)
         low = int(location.daily.data[0].apparentTemperatureLow)
         high = int(location.daily.data[0].apparentTemperatureHigh)
@@ -57,7 +55,6 @@ class DarkSkyWeather:
 
 
 class BannerMaker:
-
     def replace_banner(self, weather, calendar_text, message_text):
         currently_icon = weather.currently_icon
         summary = weather.summary
@@ -65,7 +62,9 @@ class BannerMaker:
         font_size_in_points = 9
         font = ImageFont.truetype(FONTS_DIR + 'led.ttf', font_size_in_points)
         font_size = font.getsize(summary)
-        print('summary: {}, font size: {} calendar_text: {}, message_text{}'.format(summary, font_size, calendar_text, message_text))
+        print(
+            'summary: {}, font size: {} calendar_text: {}, message_text{}'.format(
+                summary, font_size, calendar_text, message_text))
         summary_img = Image.new('RGB', font_size)
         draw = ImageDraw.Draw(summary_img)
         draw.text((0, 0), summary, font=font)
@@ -74,19 +73,21 @@ class BannerMaker:
 
         enhanced_summary = Image.open(GENERATED_DIR + 'enh.ppm')
 
-        current_img = Image.open('{}{}'.format(IMAGES_DIR, weather_files[currently_icon]))
+        current_img = Image.open(
+            '{}{}'.format(IMAGES_DIR, weather_files[currently_icon]))
 
         if message_text:
-           font_size = font.getsize(message_text)
-           message_img = Image.new('RGB', font_size)
-           message_draw = ImageDraw.Draw(message_img)
-           message_draw.text((0, 0), message_text, font=font, fill='GreenYellow')
-           enh_message = ImageEnhance.Contrast(message_img)
-           enh_message.enhance(1.99).save(GENERATED_DIR + 'messagetext.ppm')
-           enhanced_message = Image.open(GENERATED_DIR + 'messagetext.ppm')
-           message_width = enhanced_message.width
+            font_size = font.getsize(message_text)
+            message_img = Image.new('RGB', font_size)
+            message_draw = ImageDraw.Draw(message_img)
+            message_draw.text((0, 0), message_text, font=font,
+                              fill='GreenYellow')
+            enh_message = ImageEnhance.Contrast(message_img)
+            enh_message.enhance(1.99).save(GENERATED_DIR + 'messagetext.ppm')
+            enhanced_message = Image.open(GENERATED_DIR + 'messagetext.ppm')
+            message_width = enhanced_message.width
         else:
-           message_width = 0
+            message_width = 0
 
         font_size = font.getsize(calendar_text)
         calendar_img = Image.new('RGB', font_size)
@@ -97,7 +98,9 @@ class BannerMaker:
 
         enhanced_calendar = Image.open(GENERATED_DIR + 'calendartext.ppm')
 
-        size = (enhanced_summary.width + current_img.width + enhanced_calendar.width + message_width, 16)
+        size = (
+        enhanced_summary.width + current_img.width + enhanced_calendar.width + message_width,
+        16)
 
         banner = Image.new('RGB', size)
         banner.paste(enhanced_summary, (0, 4))
@@ -105,16 +108,21 @@ class BannerMaker:
 
         colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple']
         for i, color in enumerate(colors):
-           stripe = Image.new('RGB', (enhanced_summary.width, 1), color)
-           banner.paste(stripe, (0, i if i < 3 else i + 10))
-        banner.paste(enhanced_calendar, (enhanced_summary.width + current_img.width, 4))
+            stripe = Image.new('RGB', (enhanced_summary.width, 1), color)
+            banner.paste(stripe, (0, i if i < 3 else i + 10))
+
+        banner.paste(enhanced_calendar,
+                     (enhanced_summary.width + current_img.width, 4))
 
         if message_text:
-           banner.paste(enhanced_message, (enhanced_summary.width + current_img.width + enhanced_calendar.width, 4))
+            banner.paste(enhanced_message, (
+            enhanced_summary.width + current_img.width + enhanced_calendar.width,
+            4))
 
         banner.save(GENERATED_DIR + 'weather.ppm')
         banner.save(STATIC_DIR + 'weather.ppm')
-        self.exportJpg(GENERATED_DIR + 'weather.ppm', STATIC_DIR + 'display.jpg')
+        self.exportJpg(GENERATED_DIR + 'weather.ppm',
+                       STATIC_DIR + 'display.jpg')
 
     @staticmethod
     def exportJpg(ppmFilePath, outputFilePath):
@@ -125,8 +133,8 @@ class BannerMaker:
 def get_calendar_data():
     try:
         with open(CALENDAR_DATA) as f:
-                l = f.readline()
-                return l.rstrip()
+            l = f.readline()
+            return l.rstrip()
     except:
         print('unable to get calendar data')
         return ''
@@ -134,7 +142,8 @@ def get_calendar_data():
 
 def get_message_data():
     # # TODO connect to db directly maybe?? or make it port 5000 if local debug
-    url = 'http://localhost:{}/matrix/api/message'.format(os.environ['APP_PORT'])
+    url = 'http://localhost:{}/matrix/api/message'.format(
+        os.environ['APP_PORT'])
     result = requests.get(url=url)
     return result.json().get('messages')[-1]['message'] + ' '
 
