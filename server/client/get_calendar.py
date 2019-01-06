@@ -3,6 +3,8 @@ import datetime
 import os
 import requests
 import pytz
+from dotenv import load_dotenv, find_dotenv
+
 
 SUMMARY_LIMIT = 25
 CALENDAR_DATA_LIMIT = 120
@@ -80,4 +82,5 @@ def write_formatted_events(calendar_token):
         f.write(events_string[:-2])
 
 if __name__ == "__main__":
+    load_dotenv(find_dotenv())
     write_formatted_events(os.environ['CALENDAR_TOKEN'])

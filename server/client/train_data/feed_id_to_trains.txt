@@ -1,0 +1,11 @@
+feed_id=1: 2,5,6,GS,4,3,1
+feed_id=2: L
+feed_id=11: SI
+feed_id=16: N,R,Q
+feed_id=21: D,F
+feed_id=26: FS,A,E,H
+feed_id=31: G
+feed_id=36: J
+feed_id=41: 5,2,6,4,3,1
+feed_id=46:
+feed_id=51: 7

@@ -4,7 +4,9 @@ from PIL import Image, ImageFont, ImageDraw, ImageEnhance, ImageFilter
 import requests
 import datetime
 import os
+from dotenv import load_dotenv, find_dotenv
 
+load_dotenv(find_dotenv())
 API_KEY = os.environ['DARK_SKY_API_KEY']
 LAT = os.environ['LAT']
 LONG = os.environ['LONG']
@@ -101,14 +103,15 @@ def get_calendar_data():
 
 
 def get_message_data():
-    # TODO connect to db directly maybe?? or make it port 5000 if local debug
-    messageURL = 'http://localhost:8000/matrix/api/message'
-    result = requests.get(url=messageURL)
-    data = result.json().get('messages')[-1]
-    message, author = data['message'], data['author']
-    if author:
-        return author + ": " + message + " "
-    return message + " "
+    return "TODO bring message data back"
+    # # TODO connect to db directly maybe?? or make it port 5000 if local debug
+    # messageURL = 'http://localhost:8000/matrix/api/message'
+    # result = requests.get(url=messageURL)
+    # data = result.json().get('messages')[-1]
+    # message, author = data['message'], data['author']
+    # if author:
+    #     return author + ": " + message + " "
+    # return message + " "
 
 
 def get_weather():
