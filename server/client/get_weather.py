@@ -1,11 +1,11 @@
 from darksky import forecast
-from sys import argv
-from PIL import Image, ImageFont, ImageDraw, ImageEnhance, ImageFilter
+from PIL import Image, ImageFont, ImageDraw, ImageEnhance
 import requests
-import datetime
 import os
 from dotenv import load_dotenv, find_dotenv
 from collections import namedtuple
+
+from train_info import TrainInfo
 
 IMAGES_DIR = 'client/images/'
 FONTS_DIR = 'client/fonts/'
@@ -55,9 +55,15 @@ class DarkSkyWeather:
 
 
 class BannerMaker:
-    def replace_banner(self, weather, calendar_text, message_text):
+    def __init__(self, banner_id):
+        self.banner_id = banner_id
+
+    def replace_banner(self, weather, calendar_text=' ', message_text=' ',
+                       train_text=''):
         currently_icon = weather.currently_icon
-        summary = weather.summary
+        
+        summary = train_text        
+        summary += weather.summary
 
         font_size_in_points = 9
         font = ImageFont.truetype(FONTS_DIR + 'led.ttf', font_size_in_points)
@@ -119,10 +125,13 @@ class BannerMaker:
             enhanced_summary.width + current_img.width + enhanced_calendar.width,
             4))
 
-        banner.save(GENERATED_DIR + 'weather.ppm')
-        banner.save(STATIC_DIR + 'weather.ppm')
-        self.exportJpg(GENERATED_DIR + 'weather.ppm',
-                       STATIC_DIR + 'display.jpg')
+        led_output_file_name = 'weather{}.ppm'.format(self.banner_id)
+        web_output_file_name = 'display{}.jpg'.format(self.banner_id)
+
+        banner.save(GENERATED_DIR + led_output_file_name)
+        banner.save(STATIC_DIR + led_output_file_name)
+        self.exportJpg(GENERATED_DIR + led_output_file_name,
+                       STATIC_DIR + web_output_file_name)
 
     @staticmethod
     def exportJpg(ppmFilePath, outputFilePath):
@@ -130,7 +139,7 @@ class BannerMaker:
         im.save(outputFilePath)
 
 
-def get_calendar_data():
+def get_calendar_text():
     try:
         with open(CALENDAR_DATA) as f:
             l = f.readline()
@@ -140,8 +149,8 @@ def get_calendar_data():
         return ''
 
 
-def get_message_data():
-    # # TODO connect to db directly maybe?? or make it port 5000 if local debug
+def get_message_text():
+    # TODO connect to db directly maybe?? or make it port 5000 if local debug
     url = 'http://localhost:{}/matrix/api/message'.format(
         os.environ['APP_PORT'])
     result = requests.get(url=url)
@@ -150,18 +159,33 @@ def get_message_data():
 
 if __name__ == '__main__':
     load_dotenv(find_dotenv())
-    API_KEY = os.environ['DARK_SKY_API_KEY']
+    DARK_SKY_API_KEY = os.environ['DARK_SKY_API_KEY']
     LAT = os.environ['LAT']
     LONG = os.environ['LONG']
-    dsw = DarkSkyWeather(api_key=API_KEY, lat=LAT, long=LONG)
-    weather_data = dsw.get_weather()
-    calendar_text = get_calendar_data()
-    calendar_text += "  "
-    message_text = get_message_data()
+    dsw = DarkSkyWeather(api_key=DARK_SKY_API_KEY, lat=LAT, long=LONG)
+    weather = dsw.get_weather()
+    message_text = get_message_text()
 
-    bm = BannerMaker()
-    bm.replace_banner(
-        weather=weather_data,
-        calendar_text=calendar_text,
+    rc_banner = BannerMaker(banner_id='')
+
+    rc_banner.replace_banner(
+        weather=weather,
+        calendar_text=get_calendar_text(),
         message_text=message_text
+    )
+
+    home_banner = BannerMaker(banner_id='_2')
+
+    MTA_API_KEY = os.environ['MTA_API_KEY']
+    FEED_IDS = os.environ['FEED_IDS'].split(',')
+    STATIONS = os.environ['STOPS'].split(',')
+
+    ti = TrainInfo(api_key=MTA_API_KEY,
+                   feed_id=FEED_IDS[0],
+                   station=STATIONS[0])
+
+    home_banner.replace_banner(
+        weather=weather,
+        message_text=message_text,
+        train_text=ti.get_train_text()
     )

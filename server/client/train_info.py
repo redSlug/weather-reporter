@@ -89,8 +89,11 @@ class TrainInfo:
                 train_ids = ','.join(set(get_train_ids(feed)))
                 yield 'feed_id={}: {}'.format(feed_id, train_ids)
 
-    def get_train_data(self):
+    def get_train_text(self):
         feed = self.get_feed()
+        if not feed:
+            # TODO log an exception
+            return
         train_time_data = self.get_train_time_data(feed)
         return self.get_train_time_strings(train_time_data)
 
@@ -111,18 +114,18 @@ class TrainInfo:
 
 if __name__ == "__main__":
     load_dotenv(find_dotenv())
-    API_KEY = os.environ['API_KEY']
+    MTA_API_KEY = os.environ['MTA_API_KEY']
     FEED_IDS = os.environ['FEED_IDS'].split(',')
     STATIONS = os.environ['STOPS'].split(',')
 
-    if False:    # TODO add flag
+    if True:    # TODO add flag
         for feed_id, station in zip(FEED_IDS, STATIONS):
-            ti = TrainInfo(api_key=API_KEY,
+            ti = TrainInfo(api_key=MTA_API_KEY,
                            feed_id=feed_id,
                            station=station)
-            print(ti.get_train_data())
+            print(ti.get_train_text())
     else:
-        ti = TrainInfo(api_key=API_KEY, feed_id=None, station=None)
+        ti = TrainInfo(api_key=MTA_API_KEY, feed_id=None, station=None)
         print('\n'.join(list(ti.get_train_identifiers_for_all_feeds())))
 
 
