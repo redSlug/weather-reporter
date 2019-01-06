@@ -6,7 +6,7 @@ darksky==0.3
 darkskylib==0.3.91
 Flask==1.0.2
 future==0.16.0
-gunicorn
+gunicorn==19.9.0
 idna==2.6
 itsdangerous==0.24
 Jinja2==2.10
@@ -17,6 +17,7 @@ numpy==1.14.2
 Pillow==5.1.0
 psycopg2==2.7.4
 python-dateutil==2.7.3
+python-dotenv==0.10.1
 python-editor==1.0.3
 pytz==2018.4
 requests==2.20.0
