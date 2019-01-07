@@ -9,9 +9,15 @@
 - make sure the Pi has an uninterrupted power supply the first time it boots up, so it can install and set up everything it needs to, then you can `ssh pi@weatherpi.local`, password will be `blueberry` unless you change it
 - connect the pi to the MPC1073, connect the MPC1073 to the HUB75 LED matrix [like so](https://github.com/redSlug/weather-reporter/blob/master/images/hw.jpg) 
 - schedule [cronjob](https://www.raspberrypi.org/documentation/linux/usage/cron.md) to get weather every two minutes, and render upon boot
+
+### Pi
 ```console
-*/2 * * * * /home/pi/weather-reporter/pi/get_weather.sh >> /home/pi/weather-reporter/log
 @reboot /home/pi/weather-reporter/pi/show_weather.sh >> /home/pi/weather-reporter/log
+```
+
+### Server
+```console
+* * * * * /home/bd/weather-reporter/server/update_display.sh >> /home/bd/log
 ```
 
 ## BOM
