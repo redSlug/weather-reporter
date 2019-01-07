@@ -13,6 +13,9 @@ An API for messages
 - `/etc/nginx/sites-available/weather-reporter`
 - [infra stuff](https://docs.google.com/presentation/d/1g8D7R-jyDUReKxFoGk_zN5-uWEcSOi6rIvGGKv4PAVI/edit#slide=id.g3d18660b80_0_10)
 
+## After adding new dependencies
+- `source  /home/bd/.virtualenvs/venv/bin/activate`
+- `pip install -r requirements.txt`
 
 ## Useful Commands
 `sudo supervisorctl start weather-reporter`
