@@ -26,7 +26,7 @@ weather_files = dict(
     partly_cloudy_night='partly_cloudy_night.ppm'
 )
 
-WeatherData = namedtuple('WeatherData', 'currently_icon, summary')
+WeatherData = namedtuple('WeatherData', 'currently_icon, summary, temp, chance_rain')
 
 
 class DarkSkyWeather:
@@ -38,20 +38,24 @@ class DarkSkyWeather:
     def get_weather(self):
         location = forecast(self.api_key, self.lat, self.long)
         currently_icon = location.currently.icon.replace('-', '_')
-        uv = None  # location.currently.uvIndex
-        humidity = int(location.currently.humidity * 100)
+        uv = None           # location.currently.uvIndex
+        humidity = None     # int(location.currently.humidity * 100)
         low = int(location.daily.data[0].apparentTemperatureLow)
         high = int(location.daily.data[0].apparentTemperatureHigh)
         chance_rain = int(location.currently.precipProbability * 100)
-        summary = location.hourly.summary
-        summary += '{low}-{high}F '.format(low=low, high=high, )
+        summary = location.hourly.summary + ' '
+        temp = '{low}-{high}F '.format(low=low, high=high)
+
         if humidity:
             summary += 'humid:{humid}% '.format(humid=humidity)
         if uv:
-            summary += 'uv:{uv}'.format(uv=uv)
+            summary += 'uv:{uv} '.format(uv=uv)
         if chance_rain:
-            summary += 'rain:{rain}%'.format(rain=chance_rain)
-        return WeatherData(currently_icon=currently_icon, summary=summary)
+            summary += 'rain:{rain}% '.format(rain=chance_rain)
+        return WeatherData(currently_icon=currently_icon,
+                           summary=summary,
+                           temp=temp,
+                           chance_rain=chance_rain)
 
 
 class BannerMaker:
@@ -61,9 +65,14 @@ class BannerMaker:
     def replace_banner(self, weather, calendar_text=' ', message_text=' ',
                        train_text=''):
         currently_icon = weather.currently_icon
-        
-        summary = train_text        
-        summary += weather.summary
+
+        summary = ''
+        if train_text:
+            summary += train_text
+            weather.chance_rain
+        else:
+            summary += weather.summary
+        summary += weather.temp
 
         font_size_in_points = 9
         font = ImageFont.truetype(FONTS_DIR + 'led.ttf', font_size_in_points)

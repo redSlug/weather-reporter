@@ -47,7 +47,7 @@ class TrainInfo:
 
     def get_train_time_strings(self, train_time_data):
         if len(train_time_data) < 1:
-            return "no times"
+            return 'no times'
 
         train_time_data.sort(key=lambda route_time: route_time[1])
 
@@ -66,7 +66,7 @@ class TrainInfo:
             else:
                 train_output.append(self.get_train_time(arrival_time, now))
 
-        return ','.join(train_output)
+        return ','.join(train_output) + ' '
 
     def get_train_identifiers_for_all_feeds(self):
         def get_train_ids(feed_entities):
