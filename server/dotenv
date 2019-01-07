@@ -1,0 +1,17 @@
+
+DB_URL="sqlite:///db"
+
+APP_PORT=5000 # or 8000 for prod
+
+MTA_API_KEY=<get from https://datamine.mta.info/user>
+FEED_IDS=1
+STOPS=243N
+
+DARK_SKY_API_KEY=<get from https://darksky.net/dev/register>
+
+CALENDAR_TOKEN=<insert key here>
+
+LAT=40.7128
+LONG=-74.0060
+
+DB_URL=sqlite:///db
