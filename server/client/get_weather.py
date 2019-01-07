@@ -68,7 +68,7 @@ class BannerMaker:
 
         summary = ''
         if train_text:
-            summary += train_text
+            summary += train_text + '~ '
             weather.chance_rain
         else:
             summary += weather.summary

@@ -18,14 +18,14 @@ class TrainInfo:
         
     @staticmethod
     def get_train_time_with_label(train, arrival_time, now):
-        minutes_until_train = (arrival_time - int(now)) / 60
-        minutes = "{0:.1f}".format(minutes_until_train)
-        return " {}: {}".format(train, minutes)
+        minutes_until_train = (arrival_time - int(now)) // 60
+        minutes = "{}".format(minutes_until_train)
+        return "{}: {}".format(train, minutes)
 
     @staticmethod
     def get_train_time(arrival_time, now):
-        minutes_until_train = (arrival_time - int(now)) / 60
-        return " {0:.1f}".format(minutes_until_train)
+        minutes_until_train = (arrival_time - int(now)) // 60
+        return "{}".format(minutes_until_train)
 
     def get_train_time_data(self, train_data):
         train_time_data = list()
@@ -66,7 +66,7 @@ class TrainInfo:
             else:
                 train_output.append(self.get_train_time(arrival_time, now))
 
-        return ','.join(train_output) + ' '
+        return ' '.join(train_output) + ' '
 
     def get_train_identifiers_for_all_feeds(self):
         def get_train_ids(feed_entities):
