@@ -70,9 +70,8 @@ class BannerMaker:
         summary = ''
         if train_text:
             summary += train_text + '~ '
-            weather.chance_rain
-        else:
-            summary += weather.summary
+
+        summary += weather.summary
         summary += weather.temp
 
         font_size_in_points = 9
@@ -163,14 +162,14 @@ def get_message_text():
     # TODO connect to db directly maybe?? or make it port 5000 if local debug
     # can't return empty string, TODO div by zero when creating img
     try:
-        url = 'http://localhost:{}/matrimmx/api/message'.format(
+        url = 'http://localhost:{}/matrix/api/message'.format(
             os.environ['APP_PORT'])
         result = requests.get(url=url)
         message = result.json().get('messages')
         if not message:
             return ' ... '
 
-        return message[-1]['message'] + ' '
+        return ' ' + message[-1]['message']
     except:
         return " Let's hack! You can submit a PR dynamicdisplay.recurse.com "
 
@@ -183,13 +182,7 @@ if __name__ == '__main__':
     dsw = DarkSkyWeather(api_key=DARK_SKY_API_KEY, lat=LAT, long=LONG)
 
     now = datetime.datetime.now()
-    if now.minute % 2:
-        # NOTE: this is a hack to avoid exceeding rate limiting
-        # TODO: store historic weather info in the db, at switch to a better db
-        # TODO: make archicture so it doesn't depend on a cron job
-        weather = dsw.get_weather()
-    else:
-        weather = WeatherData(currently_icon='clear_night', summary=' ', temp=' ', chance_rain=None)
+    weather = dsw.get_weather()
     message_text = get_message_text()
     calendar_text = get_calendar_text()
 
