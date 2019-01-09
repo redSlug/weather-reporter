@@ -5,6 +5,7 @@ import os
 from dotenv import load_dotenv, find_dotenv
 from collections import namedtuple
 import datetime
+from get_calendar import write_calendar_data
 
 from train_info import TrainInfo
 
@@ -176,6 +177,8 @@ def get_message_text():
 
 if __name__ == '__main__':
     load_dotenv(find_dotenv())
+    write_calendar_data()
+
     DARK_SKY_API_KEY = os.environ['DARK_SKY_API_KEY']
     LAT = os.environ['LAT']
     LONG = os.environ['LONG']

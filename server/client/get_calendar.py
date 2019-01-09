@@ -81,6 +81,11 @@ def write_formatted_events(calendar_token):
     with open(CALENDAR_DATA, 'w') as f:
         f.write(events_string[:-2])
 
+
+def write_calendar_data():
+    write_formatted_events(os.environ['CALENDAR_TOKEN'])
+
+
 if __name__ == "__main__":
     load_dotenv(find_dotenv())
     write_formatted_events(os.environ['CALENDAR_TOKEN'])
