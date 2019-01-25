@@ -7,7 +7,7 @@
 - add network name and password between the `**` symbols, removing the `**` symbols
 - flash SD card to full raspian using [PiBakery](http://www.pibakery.org/download.html) and `recipe.xml` 
 - make sure the Pi has an uninterrupted power supply the first time it boots up, so it can install and set up everything it needs to, then you can `ssh pi@weatherpi.local`, password will be `blueberry` unless you change it
-- connect the pi to the MPC1073, connect the MPC1073 to the HUB75 LED matrix [like so](https://github.com/redSlug/weather-reporter/blob/master/images/hw.jpg) 
+- connect the pi to the MPC1073, connect the MPC1073 to the HUB75 LED matrix 
 - schedule [cronjob](https://www.raspberrypi.org/documentation/linux/usage/cron.md) to get weather every two minutes, and render upon boot
 
 ### Pi
