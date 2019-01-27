@@ -5,7 +5,7 @@ APP_PORT=5000 # or 8000 for prod
 
 MTA_API_KEY=<get from https://datamine.mta.info/user>
 FEED_IDS=1
-STOPS=243N
+STOPS=A50N
 
 DARK_SKY_API_KEY=<get from https://darksky.net/dev/register>
 
