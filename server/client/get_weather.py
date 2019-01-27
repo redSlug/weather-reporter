@@ -68,7 +68,9 @@ class BannerMaker:
                        train_text=''):
         currently_icon = weather.currently_icon
 
-        summary = ''
+        now = datetime.date.strftime(datetime.datetime.now(), "%a %-I:%M%p")
+
+        summary = now + ' '
         if train_text:
             summary += train_text + '~ '
 
