@@ -205,5 +205,6 @@ if __name__ == '__main__':
     home_banner = BannerMaker(banner_id='_2')
 
     home_banner.replace_banner(
-        weather=weather
+        weather=weather,
+        message_text=message_text
     )
