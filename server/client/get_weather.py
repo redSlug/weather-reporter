@@ -45,8 +45,13 @@ class DarkSkyWeather:
         low = int(location.daily.data[0].apparentTemperatureLow)
         high = int(location.daily.data[0].apparentTemperatureHigh)
         chance_rain = int(location.currently.precipProbability * 100)
+        current_temp = int(location.currently.apparentTemperature)
         summary = location.hourly.summary + ' '
-        temp = '{low}-{high}F '.format(low=low, high=high)
+        temp = '{low}-{high}F Now:{now}'.format(
+            low=low,
+            high=high,
+            now=current_temp
+        )
 
         if humidity:
             summary += 'humid:{humid}% '.format(humid=humidity)
@@ -206,5 +211,4 @@ if __name__ == '__main__':
 
     home_banner.replace_banner(
         weather=weather,
-        message_text=message_text
     )
