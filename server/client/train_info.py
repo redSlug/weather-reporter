@@ -69,7 +69,7 @@ class TrainInfo:
 
             train_output.append(self.format_train_time(arrival_time))
 
-        return 'A trains ' + ' '.join(train_output) + ' '
+        return 'trains ' + ' '.join(train_output) + ' '
 
     def get_train_identifiers_for_all_feeds(self):
         def get_train_ids(feed_entities):
