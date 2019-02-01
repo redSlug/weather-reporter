@@ -199,12 +199,21 @@ if __name__ == '__main__':
     print('message_text={}#'.format(message_text))
     print('calendar_text={}#'.format(calendar_text))
 
+    MTA_API_KEY = os.environ['MTA_API_KEY']
+    FEED_IDS = os.environ['FEED_IDS'].split(',')
+    STATIONS = os.environ['STOPS'].split(',')
+
+    ti = TrainInfo(api_key=MTA_API_KEY,
+                   feed_id=FEED_IDS[0],
+                   station=STATIONS[0])
+
     rc_banner = BannerMaker(banner_id='')
 
     rc_banner.replace_banner(
         weather=weather,
         calendar_text=calendar_text,
-        message_text=message_text
+        message_text=message_text,
+        train_text=ti.get_train_text()
     )
 
     home_banner = BannerMaker(banner_id='_2')

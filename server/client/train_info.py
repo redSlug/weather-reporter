@@ -1,5 +1,6 @@
 import os, requests, time
 
+import datetime
 from google.transit import gtfs_realtime_pb2
 from dotenv import load_dotenv, find_dotenv
 from protobuf_to_dict import protobuf_to_dict
@@ -23,9 +24,14 @@ class TrainInfo:
         return "{}: {}".format(train, minutes)
 
     @staticmethod
-    def get_train_time(arrival_time, now):
+    def get_train_time_minutes(arrival_time, now):
         minutes_until_train = (arrival_time - int(now)) // 60
         return "{}".format(minutes_until_train)
+
+    @staticmethod
+    def format_train_time(arrival_time):
+        arrival_time = time.localtime(arrival_time)
+        return time.strftime("%H:%M", arrival_time)
 
     def get_train_time_data(self, train_data):
         train_time_data = list()
@@ -60,13 +66,10 @@ class TrainInfo:
             minutes_until_arrival = (arrival_time - int(now)) / 60
             if minutes_until_arrival < 1:
                 continue
-            if i < 1 or train_time_data[i-1][0] != train:
-                train_output.append(
-                    self.get_train_time_with_label(train, arrival_time, now))
-            else:
-                train_output.append(self.get_train_time(arrival_time, now))
 
-        return ' '.join(train_output) + ' '
+            train_output.append(self.format_train_time(arrival_time))
+
+        return 'A trains ' + ' '.join(train_output) + ' '
 
     def get_train_identifiers_for_all_feeds(self):
         def get_train_ids(feed_entities):
