@@ -160,10 +160,10 @@ def get_calendar_text():
     try:
         with open(CALENDAR_DATA) as f:
             l = f.readline()
-            return l.rstrip()
+            return l.rstrip() + ' '    # hack to avoid div by zero creating img
     except:
         print('unable to get calendar data')
-        return ' '  # hack to avoid div by zero when creating img
+        return ' '                     # hack to avoid div by zero creating img
 
 
 def get_message_text():
