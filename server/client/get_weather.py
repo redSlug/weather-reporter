@@ -184,15 +184,25 @@ def get_message_text():
 
 if __name__ == '__main__':
     load_dotenv(find_dotenv())
-    write_calendar_data()
-
-    DARK_SKY_API_KEY = os.environ['DARK_SKY_API_KEY']
-    LAT = os.environ['LAT']
-    LONG = os.environ['LONG']
-    dsw = DarkSkyWeather(api_key=DARK_SKY_API_KEY, lat=LAT, long=LONG)
 
     now = datetime.datetime.now()
-    weather = dsw.get_weather()
+
+    try:
+        write_calendar_data()
+    except Exception as e:
+        print('Could not get calendar data {}, exception={}'.format(now, e))
+        pass
+
+    try:
+        DARK_SKY_API_KEY = os.environ['DARK_SKY_API_KEY']
+        LAT = os.environ['LAT']
+        LONG = os.environ['LONG']
+        dsw = DarkSkyWeather(api_key=DARK_SKY_API_KEY, lat=LAT, long=LONG)
+        weather = dsw.get_weather()
+    except Exception as e:
+        print('Could not get weather data {}, exception={}'.format(now, e))
+        raise
+
     message_text = get_message_text()
     calendar_text = get_calendar_text()
 
@@ -203,9 +213,15 @@ if __name__ == '__main__':
     FEED_IDS = os.environ['FEED_IDS'].split(',')
     STATIONS = os.environ['STOPS'].split(',')
 
-    ti = TrainInfo(api_key=MTA_API_KEY,
-                   feed_id=FEED_IDS[0],
-                   station=STATIONS[0])
+    train_text = ''
+    try:
+        ti = TrainInfo(api_key=MTA_API_KEY,
+                       feed_id=FEED_IDS[0],
+                       station=STATIONS[0])
+        train_text = ti.get_train_text()
+    except Exception as e:
+        print('Could not get train data {}, exception={}'.format(now, e))
+        pass
 
     rc_banner = BannerMaker(banner_id='')
 
@@ -213,7 +229,7 @@ if __name__ == '__main__':
         weather=weather,
         calendar_text=calendar_text,
         message_text=message_text,
-        train_text=ti.get_train_text()
+        train_text=train_text
     )
 
     home_banner = BannerMaker(banner_id='_2')
