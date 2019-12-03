@@ -28,7 +28,7 @@ weather_files = dict(
     partly_cloudy_night='partly_cloudy_night.ppm'
 )
 
-WeatherData = namedtuple('WeatherData', 'currently_icon, summary, temp, chance_rain')
+WeatherData = namedtuple('WeatherData', 'currently_icon, summary, temp, precip')
 
 
 class DarkSkyWeather:
@@ -44,7 +44,7 @@ class DarkSkyWeather:
         humidity = None     # int(location.currently.humidity * 100)
         low = int(location.daily.data[0].apparentTemperatureLow)
         high = int(location.daily.data[0].apparentTemperatureHigh)
-        chance_rain = int(location.currently.precipProbability * 100)
+        precipitation = int(location.currently.precipProbability * 100)
         current_temp = int(location.currently.apparentTemperature)
         summary = location.hourly.summary + ' '
         temp = '{low}-{high}F Now:{now}'.format(
@@ -57,12 +57,12 @@ class DarkSkyWeather:
             summary += 'humid:{humid}% '.format(humid=humidity)
         if uv:
             summary += 'uv:{uv} '.format(uv=uv)
-        if chance_rain:
-            summary += 'rain:{rain}% '.format(rain=chance_rain)
+        if precipitation:
+            summary += f'precip:{precipitation}% '
         return WeatherData(currently_icon=currently_icon,
                            summary=summary,
                            temp=temp,
-                           chance_rain=chance_rain)
+                           precip=precipitation)
 
 
 class BannerMaker:
