@@ -58,7 +58,7 @@ class DarkSkyWeather:
         if uv:
             summary += 'uv:{uv} '.format(uv=uv)
         if precipitation:
-            summary += f'precip:{precipitation}% '
+            summary += 'precip:{}% '.format(precipitation)
         return WeatherData(currently_icon=currently_icon,
                            summary=summary,
                            temp=temp,
