@@ -9,6 +9,7 @@ cleanup() {
     exit
 }
 
+echo hi
 
 pushd /home/pi/weather-reporter/pi
 image_file="weather.ppm"
@@ -21,8 +22,7 @@ delay_milliseconds=18
 
 trap cleanup EXIT
 while true; do
-    wget -N http://206.189.229.207/static/weather.ppm
-    # curl http://server/folder/file1.html > file1.html
+    wget -N http://206.189.229.207/static/$image_file
     if [ $? -eq 0 ];
     then
         echo "wget succeeded $(date)"
@@ -33,5 +33,7 @@ while true; do
     fi
     sleep 2m
 done
+
+echo bye
 
 popd
