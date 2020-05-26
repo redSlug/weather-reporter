@@ -34,11 +34,6 @@ function rotate_logs_if_needed {
 function main {
     pushd /home/pi/weather-reporter/pi
 
-    if [ ! -f $BANNER_IMAGE_FILE ]; then
-        log_to_file "File not found!"
-        exit 1
-    fi
-
     while true; do
         wget -N http://206.189.229.207/static/$BANNER_IMAGE_FILE
         if [ $? -eq 0 ];
@@ -48,7 +43,13 @@ function main {
             sudo rpi-rgb-led-matrix/examples-api-use/demo -D 1 $BANNER_IMAGE_FILE --led-no-hardware-pulse --led-rows=16 --led-cols=32 -m $LED_DELAY_MS --led-daemon --led-brightness=10
         else
             log_to_file "wget failed - file was likely not modified"
+
+            if [ ! -f $BANNER_IMAGE_FILE ]; then
+                log_to_file "File not found!"
+                exit 1
+            fi
         fi
+
         rotate_logs_if_needed
         sleep $POLLING_DELAY
     done
