@@ -2,7 +2,7 @@
 
 # crontab -e
 # @reboot /home/pi/weather-reporter/pi/show_weather.sh
-# sed -i 's/weather.ppm/weather_2.ppm/g' /home/pi/weather-reporter/pi/show_weather.sh
+# sed -i 's/BANNER_IMAGE_FILE="weather.ppm/BANNER_IMAGE_FILE="weather_2.ppm/g' /home/pi/weather-reporter/pi/show_weather.sh
 
 MAX_LOG_FILE_SIZE=250000000
 LOG_FILE=/home/pi/weather-reporter/pi/log
