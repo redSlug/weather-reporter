@@ -6,7 +6,7 @@
 
 MAX_LOG_FILE_SIZE=250000000
 LOG_FILE=/home/pi/weather-reporter/pi/log
-BANNER_IMAGE_FILE="weather.ppm"
+BANNER_IMAGE_FILE="weather_2.ppm"
 POLLING_DELAY=2m
 LED_DELAY_MS=18
 

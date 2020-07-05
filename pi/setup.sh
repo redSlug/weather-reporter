@@ -1,4 +1,4 @@
 #!/bin/bash
 
-make -C rpi-rgb-led-matrix/examples-api-use
-./show_weather.sh
+make -C weather-reporter/pi/rpi-rgb-led-matrix/examples-api-use
+./weather-reporter/pi/show_weather.sh
